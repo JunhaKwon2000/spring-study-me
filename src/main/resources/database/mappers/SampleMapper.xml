@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace 이름은 사용하려는 DAO의 Full-Package-Name과 동일하게 작성 -->
+<mapper namespace="sample">
+	<!-- 일반 변수는 변수명으로, DTO/VO를 사용할 때는 getter/setter의 이름으로 -->
+	<insert id="" parameterType="Map">
+		INSERT INTO table ()
+		VLAUES (#{Map의 키}, #{List의 인덱스}, #{변수명})
+	</insert>
+	<select id="" resultType="dto/vo 또는 Map(만약 join 등으로 누더기 골램할 경우)">
+		<!-- 컬럼명과 DTO/VO의 setter의 이름이 일치해야함 -->
+		<!-- Map: 컬럼명이 key, 값이 value -->
+		<!-- 컬럼명과 VO의 setter의 이름이 일치하지 않는 경우: ResultMap 또는 Alias 지정(AS setter의 이름) -->
+		SELECT board_num AS boardNum FROM notice
+	</select>
+	
+	<resultMap type="DTO/VO" id="">
+		<id column="컬럼명" property="DTO/VO의 setter의 이름"/>
+		<result column="컬럼명" property="DTO/VO의 setter의 이름"/>
+		<association property=""></association>
+		<collection property=""></collection>
+	</resultMap>
+	
+	<select id="" resultMap="">
+		SELECT board_num FROM notice
+	</select>
+</mapper>
