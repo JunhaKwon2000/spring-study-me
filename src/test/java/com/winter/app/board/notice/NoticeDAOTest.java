@@ -2,6 +2,8 @@ package com.winter.app.board.notice;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.List;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -60,6 +62,13 @@ class NoticeDAOTest {
 		
 		// 단정문
 		assertNotNull(result);
+	}
+	
+	@Test 
+	void noticeListTest() throws Exception {
+		List<BoardVO> result = noticeDAO.noticeList();
+		int testResult = result.size();
+		assertEquals(31, testResult);
 	}
 
 }
