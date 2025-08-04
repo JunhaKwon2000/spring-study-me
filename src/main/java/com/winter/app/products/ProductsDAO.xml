@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.winter.app.products.ProductsDAO">
+
+	<resultMap type="ProductsVO" id="detailResultMap">
+		<id column="PRODUCT_NUM" property="productNum"/>
+		<result column="PRODUCT_NAME" property="productName"/>
+		<result column="PRODUCT_CONTENT" property="productContent"/>
+		<result column="PRODUCT_DATE" property="productDate"/>
+		<result column="PRODUCT_RATE" property="productRate"/>
+		<result column="KIND_NUM" property="kindNum"/>
+		<association property="productsKindVO" javaType="ProductsKindVO">
+			<result column="KIND_NAME" property="kindName"/>
+		</association>
+	</resultMap>
+
+	<select id="list" resultType="ProductsVO">
+		SELECT * FROM PRODUCTS ORDER BY PRODUCT_NUM DESC
+	</select>
+	
+	<select id="detail" parameterType="ProductsVO" resultMap="detailResultMap">
+		SELECT * FROM products p JOIN products_kind k USING(KIND_NUM) WHERE p.PRODUCT_NUM = #{productNum};
+	</select>
+	
+	<insert id="add" parameterType="ProductsVO">
+		INSERT INTO PRODUCTS VALUES (NULL, #{productName}, #{productContent}, #{productDate}, #{productRate}, #{kindNum})
+	</insert>
+	
+	<delete id="delete" parameterType="ProductsVO">
+		DELETE FROM PRODUCTS WHERE PRODUCT_NUM = #{productNum}
+	</delete>
+	
+	<update id="update" parameterType="ProductsVO">
+		UPDATE PRODUCTS SET PRODUCT_NAME = #{productName}, PRODUCT_CONTENT = #{productContent}, PRODUCT_DATE = #{productDate}, PRODUCT_RATE = #{productRate}, KIND_NUM = #{kindNum}
+		WHERE PRODUCT_NUM = #{productNum}
+	</update>
+	
+</mapper>
