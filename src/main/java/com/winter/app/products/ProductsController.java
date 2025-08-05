@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 @RequestMapping(value="/products/*")
@@ -34,23 +35,34 @@ public class ProductsController {
 	}
 	
 	@PostMapping("add")
-	public String add(ProductsVO productsVO, Model model) throws Exception {
+	public ModelAndView add(ProductsVO productsVO, Model model) throws Exception {
 		int result = productsService.add(productsVO);
 		String msg = "Action Failed";
 		String url = "./list";
 		if (result > 0) {
 			msg = "Product Added";
 		}
-		model.addAttribute("msg", msg);
-		model.addAttribute("url", url);
-		return "common/result";
+		
+		// 이렇게도 가능
+		ModelAndView mv = new ModelAndView();
+		mv.addObject("msg", msg);
+		mv.addObject("url", url);
+		mv.setViewName("commons/result");
+		return mv;
+		
+		
+//		model.addAttribute("msg", msg);
+//		model.addAttribute("url", url);
+//		return "common/result";
 	}
 	
+	// ModelAndView를 매개변수로 사용도 가능 => 이러면 메서드 오버로딩이 편해짐
 	@GetMapping("update")
-	public String updateView(ProductsVO productsVO, Model model) throws Exception {
+	public ModelAndView update(ProductsVO productsVO, ModelAndView mv) throws Exception {
 		ProductsVO result = productsService.detail(productsVO);
-		model.addAttribute("detail", result);
-		return "products/form";
+		mv.addObject("detail", result);
+		mv.setViewName("products/form");
+		return mv;
 	}
 	
 	@PostMapping("update")
@@ -78,5 +90,5 @@ public class ProductsController {
 		model.addAttribute("url", url);
 		return "common/result";
 	}
-	
+
 }

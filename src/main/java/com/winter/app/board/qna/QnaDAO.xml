@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.winter.app.board.qna.QnaDAO">
+	
+	<select id="noticeList" resultType="QnaVO">
+		SELECT * FROM QNA ORDER BY BOARD_REF DESC, BOARD_STEP ASC
+	</select>
+	
+	<insert id="insert" parameterType="QnaVO" useGeneratedKeys="true" keyProperty="boardNum">
+		INSERT INTO QNA (BOARD_NUM, BOARD_TITLE, BOARD_CONTENT, BOARD_WRITER, BOARD_DATE, BOARD_HIT, BOARD_REF, BOARD_STEP, BOARD_DEPTH) 
+		VALUES (NULL, #{boardTitle}, #{boardContent}, #{boardWriter}, now(), 0, 0, 0, 0)
+	</insert>
+	
+	<update id="refUpdate" parameterType="QnaVO">
+		UPDATE QNA SET BOARD_REF = #{boardNum} WHERE BOARD_NUM = #{boardNum}
+	</update>
+	
+	<select id="qnaDetail" parameterType="QnaVO" resultType="QnaVO">
+		SELECT * FROM QNA WHERE BOARD_NUM = #{boardNum}
+	</select>
+	
+	<update id="replyUpdate" parameterType="QnaVO">
+		UPDATE QNA SET BOARD_STEP = BOARD_STEP + 1
+		WHERE BOARD_REF = #{boardRef} AND BOARD_STEP > #{boardStep}
+	</update>
+	
+	<insert id="replyInsert" parameterType="QnaVO">
+		INSERT INTO QNA (BOARD_NUM, BOARD_TITLE, BOARD_CONTENT, BOARD_WRITER, BOARD_DATE, BOARD_HIT, BOARD_REF, BOARD_STEP, BOARD_DEPTH)
+		VALUES (NULL, #{boardTitle}, #{boardContent}, #{boardWriter}, now(), 0, #{boardRef}, #{boardStep}, #{boardDepth})
+	</insert>
+	
+</mapper>

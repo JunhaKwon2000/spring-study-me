@@ -16,7 +16,7 @@
 				<%@ include file="/WEB-INF/views/include/topbar.jsp"%>
 				<div class="container-fluid">
 					<!-- 페이지 본문 -->
-					<h1 class="h3 mb-4 text-gray-800">Notice Write Page</h1>
+					<h1 class="h3 mb-4 text-gray-800">Write Page</h1>
 					<form method="post">
 						<input type="hidden" name="boardNum" value=${ notice.boardNum }>
 						<div class="mb-4">

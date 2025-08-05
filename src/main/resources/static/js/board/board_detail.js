@@ -19,6 +19,9 @@ elements.forEach(el => {
 		} else if (data === 'u'){
 			form.setAttribute('action', './update');
 			form.submit();						
+		} else if (data === 'r') {
+			form.setAttribute('action', './reply');
+			form.submit();
 		}
 	});
 });

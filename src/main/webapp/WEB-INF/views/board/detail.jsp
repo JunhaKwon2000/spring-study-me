@@ -14,6 +14,7 @@
 			<div id="content">
 				<%@ include file="/WEB-INF/views/include/topbar.jsp" %>
                 <div class="container-fluid">
+                	<h1 class="h3 mb-4 text-gray-800 text-uppercase">${ board }</h1>
 					<p>제목 : ${ notice.boardTitle }</p>
 					<p>작성자 : ${ notice.boardWriter } </p>
 					<p>내용 : ${ notice.boardContent } </p>
@@ -32,6 +33,9 @@
 	                	</form>
 	                	<button class="btn btn-warning action" data-kind="u">Update</button>
 	                	<button class="btn btn-danger action" data-kind="d">Delete</button>
+	                	<c:if test="${ board ne 'notice' }">
+		                	<button class="btn btn-primary action" data-kind="r">Reply</button>
+	                	</c:if>
 	                </div>
                 </div>
 			</div>

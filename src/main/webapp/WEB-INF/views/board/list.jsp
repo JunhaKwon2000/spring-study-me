@@ -15,6 +15,7 @@
 				<%@ include file="/WEB-INF/views/include/topbar.jsp" %>
                 <div class="container-fluid">
 	                <!-- 페이지 본문 -->
+	                <h1 class="h3 mb-4 text-gray-800">${ board }</h1>
 	                <div class="row col-md-8 offset-md-2">
 	                	<table class="table">
 	                		<thead>
@@ -30,7 +31,14 @@
 	                			<c:forEach var="notice" items="${ list }">
 		                			<tr>
 		                				<td>${ notice.boardNum }</td>
-		                				<td><a href="./detail?boardNum=${ notice.boardNum }">${ notice.boardTitle }</a></td>
+		                				<td>
+			                				<c:catch>
+												<c:forEach begin="1" end="${ notice.boardDepth }">
+												&#128511;
+												</c:forEach>			                				
+			                				</c:catch>
+		                					<a href="./detail?boardNum=${ notice.boardNum }">${ notice.boardTitle }</a>
+	                					</td>
 		                				<td>${ notice.boardWriter }</td>
 		                				<td>${ notice.boardDate }</td>
 		                				<td>${ notice.boardHit }</td>
