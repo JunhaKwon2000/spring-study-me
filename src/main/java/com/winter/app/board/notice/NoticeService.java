@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.winter.app.board.BoardDAO;
 import com.winter.app.board.BoardService;
 import com.winter.app.board.BoardVO;
+import com.winter.app.commons.Pager;
 
 @Service
 public class NoticeService implements BoardService {
@@ -16,8 +17,10 @@ public class NoticeService implements BoardService {
 	private BoardDAO noticeDAO;
 	
 	@Override
-	public List<BoardVO> noticeList() throws Exception {
-		return noticeDAO.noticeList();
+	public List<BoardVO> noticeList(Pager pager) throws Exception {
+		Long totalCount = noticeDAO.getTotalCount();
+		pager.makeNum(totalCount);
+		return noticeDAO.noticeList(pager);
 	}
 
 	@Override

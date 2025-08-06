@@ -20,7 +20,12 @@
 		SELECT * FROM NOTICE WHERE BOARD_NUM=#{boardNum}
 	</select>
 	
-	<select id="noticeList" resultType="NoticeVO">
+	<select id="noticeList" resultType="NoticeVO" parameterType="Pager">
 		SELECT * FROM NOTICE ORDER BY BOARD_NUM DESC
+		LIMIT #{startIndex}, #{endIndex}
+	</select>
+	
+	<select id="getTotalCount" resultType="Long">
+		SELECT COUNT(BOARD_NUM) FROM NOTICE
 	</select>
 </mapper>

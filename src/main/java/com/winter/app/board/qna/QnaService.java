@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.winter.app.board.BoardService;
 import com.winter.app.board.BoardVO;
+import com.winter.app.commons.Pager;
 
 @Service
 public class QnaService implements BoardService {
@@ -15,8 +16,10 @@ public class QnaService implements BoardService {
 	private QnaDAO qnaDAO;
 
 	@Override
-	public List<BoardVO> noticeList() throws Exception {
-		return qnaDAO.noticeList();
+	public List<BoardVO> noticeList(Pager pager) throws Exception {
+		Long totalCount = qnaDAO.getTotalCount();
+		pager.makeNum(totalCount);
+		return qnaDAO.noticeList(pager);
 	}
 
 

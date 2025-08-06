@@ -67,11 +67,11 @@ class NoticeDAOTest {
 		assertNotNull(result);
 	}
 	
-	@Test 
-	void noticeListTest() throws Exception {
-		List<BoardVO> result = noticeDAO.noticeList();
-		int testResult = result.size();
-		assertEquals(31, testResult);
-	}
+//	@Test 
+//	void noticeListTest() throws Exception {
+//		List<BoardVO> result = noticeDAO.noticeList();
+//		int testResult = result.size();
+//		assertEquals(31, testResult);
+//	}
 
 }

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.winter.app.board.BoardVO;
+import com.winter.app.commons.Pager;
 
 @Controller
 @RequestMapping(value = "/qna/*")
@@ -29,8 +30,12 @@ public class QnaController {
 	};
 	
 	@GetMapping("list")
-	public String list(Model model) throws Exception {
-		List<BoardVO> result = qnaService.noticeList();
+	public String list(Pager pager, Model model) throws Exception {
+		List<BoardVO> result = qnaService.noticeList(pager);
+		System.out.println(pager.getTotalPage());
+		System.out.println(pager.getStartNum());
+		System.out.println(pager.getEndNum());
+		model.addAttribute("pager", pager);
 		model.addAttribute("list", result);
 		return "board/list";
 	}

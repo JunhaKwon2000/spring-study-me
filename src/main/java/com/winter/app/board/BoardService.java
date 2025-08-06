@@ -2,10 +2,12 @@ package com.winter.app.board;
 
 import java.util.List;
 
+import com.winter.app.commons.Pager;
+
 public interface BoardService {
 
 	// list
-	List<BoardVO> noticeList() throws Exception;
+	List<BoardVO> noticeList(Pager pager) throws Exception;
 	
 	// detail
 	BoardVO detail(BoardVO boardVO) throws Exception;
