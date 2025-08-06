@@ -41,31 +41,30 @@ public class Pager {
 		// totalPage = totalCount / 10
 		// if (totalCount % 10 != 0) { totalPage += 1 } 
 		this.totalPage = totalCount / this.getPerPage();
-		if (totalCount % perPage != 0) totalPage += 1L;
+		if (totalCount % perPage != 0) totalPage++;
 		
 		// 2. totalBlock: 전체 블럭의 갯수
 		Long perBlock = 5L; // 블럭당 출력할 번호의 갯수
 		Long totalBlock = totalPage / perBlock;
-		if (totalBlock % perBlock != 0) totalBlock += 1L;
+		if (totalPage % perBlock != 0) totalBlock++;
 		
 		// 3. 현재 페이지 번호로 현재 블럭 번호를 계산
 		Long curBlock = (this.getPageNum() / perBlock);
-		if (pageNum % perBlock != 0) curBlock += 1L;
+		if (pageNum % perBlock != 0) curBlock++;
 		
 		// 4. 현재 블럭 번호로 시작 번호와 끝 번호 계산
 		this.startNum = ((curBlock - 1L) * perBlock) + 1L;
 		this.endNum = curBlock * perBlock;
 		
 		// 5. 마지막 블럭일 경우
-		if (curBlock == totalBlock || totalPage < perPage) {
+		if (curBlock == totalBlock ) {
 			this.endNum = totalPage;
 		}
-		
+
 		this.makePage();
 		
 	}
 	
-	// 
 	public Long getStartIndex() {
 		return startIndex;
 	}
