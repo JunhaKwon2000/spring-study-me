@@ -10,12 +10,16 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.winter.app.board.BoardVO;
 import com.winter.app.commons.Pager;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Controller
 @RequestMapping(value = "/qna/*")
+@Slf4j
 public class QnaController {
 	
 	@Autowired
@@ -32,9 +36,6 @@ public class QnaController {
 	@GetMapping("list")
 	public String list(Pager pager, Model model) throws Exception {
 		List<BoardVO> result = qnaService.noticeList(pager);
-		System.out.println(pager.getTotalPage());
-		System.out.println(pager.getStartNum());
-		System.out.println(pager.getEndNum());
 		model.addAttribute("pager", pager);
 		model.addAttribute("list", result);
 		return "board/list";
@@ -46,8 +47,8 @@ public class QnaController {
 	}
 	
 	@PostMapping("add")
-	public String add(QnaVO qnaVO, Model model) throws Exception {
-		int result = qnaService.add(qnaVO);
+	public String add(QnaVO qnaVO, MultipartFile attaches, Model model) throws Exception {
+		int result = qnaService.add(qnaVO, attaches);
 		String msg = "Add Fail";
 		String url = "./list";
 		if (result > 0) {
@@ -59,8 +60,8 @@ public class QnaController {
 	}
 	
 	@GetMapping("detail")
-	public String detail(QnaVO qnaVO, Model model) throws Exception {
-		QnaVO result = qnaService.detail(qnaVO);
+	public String detail(BoardVO qnaVO, Model model) throws Exception {
+		QnaVO result = (QnaVO)qnaService.detail(qnaVO);
 		model.addAttribute("notice", result);
 		return "board/detail";
 	}

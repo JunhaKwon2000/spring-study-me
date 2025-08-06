@@ -18,4 +18,6 @@ public interface BoardDAO {
 	public List<BoardVO> noticeList(Pager pager) throws Exception;
 	
 	public Long getTotalCount() throws Exception;
+	
+	public int insertFile(BoardFileVO boardFileVO) throws Exception;
 }

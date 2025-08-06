@@ -17,7 +17,7 @@
 				<div class="container-fluid">
 					<!-- 페이지 본문 -->
 					<h1 class="h3 mb-4 text-gray-800">Write Page</h1>
-					<form method="post">
+					<form method="post" enctype="multipart/form-data">
 						<input type="hidden" name="boardNum" value=${ notice.boardNum }>
 						<div class="mb-4">
 							<label for="title" class="form-label">Title</label> <input
@@ -34,6 +34,9 @@
 							<textarea class="form-control"
 								placeholder="Write your content here!" id="content"
 								style="height: 100px" name="boardContent">${ notice.boardContent }</textarea>
+						</div>
+						<div class="mb-4">
+							<input type="file" name="attaches">
 						</div>
 						<button type="submit" class="btn btn-primary">Submit</button>
 					</form>

@@ -1,6 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.winter.app.board.qna.QnaDAO">
+
+	<resultMap type="QnaVO" id="detailResultMap">
+		<id column="BOARD_NUM" property="boardNum"/>
+		<result column="BOARD_TITLE" property="boardTitle"/>
+		<result column="BOARD_CONTENT" property="boardContent"/>
+		<result column="BOARD_WRITER" property="boardWriter"/>
+		<result column="BOARD_DATE" property="boardDate"/>
+		<result column="BOARD_HIT" property="boardHit"/>
+		<result column="BOARD_REF" property="boardRef"/>
+		<result column="BOARD_STEP" property="boardStep"/>
+		<result column="BOARD_DEPTH" property="boardDepth"/>
+		<association property="boardFileVO" javaType="BoardFileVO">
+			<result column="FILE_NUM" property="fileNum"/>
+			<result column="ORI_NAME" property="oriName"/>
+			<result column="SAVE_NAME" property="saveName"/>
+		</association>
+	</resultMap>
 	
 	<select id="noticeList" resultType="QnaVO">
 		SELECT * FROM QNA ORDER BY BOARD_REF DESC, BOARD_STEP ASC
@@ -16,8 +33,9 @@
 		UPDATE QNA SET BOARD_REF = #{boardNum} WHERE BOARD_NUM = #{boardNum}
 	</update>
 	
-	<select id="qnaDetail" parameterType="QnaVO" resultType="QnaVO">
-		SELECT * FROM QNA WHERE BOARD_NUM = #{boardNum}
+	<select id="detail" parameterType="QnaVO" resultMap="detailResultMap">
+		SELECT * FROM QNA q LEFT JOIN QNA_FILES qf ON q.BOARD_NUM = qf.BOARD_NUM 
+		WHERE q.BOARD_NUM = #{boardNum}
 	</select>
 	
 	<update id="replyUpdate" parameterType="QnaVO">
@@ -33,5 +51,9 @@
 	<select id="getTotalCount" resultType="Long">
 		SELECT COUNT(BOARD_NUM) FROM QNA
 	</select>
+	
+	<insert id="insertFile" parameterType="BoardFileVO">
+		INSERT INTO QNA_FILES VALUES (NULL, #{boardNum}, #{oriName}, #{saveName})
+	</insert>
 	
 </mapper>

@@ -25,6 +25,12 @@
 	                    </div>
 	                    <div class="card-body">
 							${ notice.boardContent }
+							<br>
+							파일 정보
+							<br>
+							<a href="/files/${ board }/${ notice.boardFileVO.saveName }">${ notice.boardFileVO.oriName }</a>
+							<br>
+							${ notice.boardFileVO.saveName }
 	                    </div>
 	                </div>
 	                <div>
