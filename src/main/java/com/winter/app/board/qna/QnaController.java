@@ -73,8 +73,8 @@ public class QnaController {
 	}
 	
 	@PostMapping("reply")
-	public String replyForm(QnaVO qnaVO, Model model) throws Exception {
-		int result = qnaService.reply(qnaVO);
+	public String replyForm(QnaVO qnaVO, MultipartFile[] attaches, Model model) throws Exception {
+		int result = qnaService.reply(qnaVO, attaches);
 		String msg = "Reply Fail";
 		String url = "./list";
 		if (result > 0) {

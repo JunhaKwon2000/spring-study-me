@@ -56,7 +56,7 @@
 		WHERE BOARD_REF = #{boardRef} AND BOARD_STEP > #{boardStep}
 	</update>
 	
-	<insert id="replyInsert" parameterType="QnaVO">
+	<insert id="replyInsert" parameterType="QnaVO" useGeneratedKeys="true" keyProperty="boardNum">
 		INSERT INTO QNA (BOARD_NUM, BOARD_TITLE, BOARD_CONTENT, BOARD_WRITER, BOARD_DATE, BOARD_HIT, BOARD_REF, BOARD_STEP, BOARD_DEPTH)
 		VALUES (NULL, #{boardTitle}, #{boardContent}, #{boardWriter}, now(), 0, #{boardRef}, #{boardStep}, #{boardDepth})
 	</insert>

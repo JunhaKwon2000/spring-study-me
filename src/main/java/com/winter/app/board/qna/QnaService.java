@@ -40,7 +40,7 @@ public class QnaService implements BoardService {
 		return qnaDAO.detail(qnaVO);
 	}
 	
-	public int reply(QnaVO qnaVO) throws Exception {
+	public int reply(QnaVO qnaVO, MultipartFile[] attaches) throws Exception {
 		QnaVO parent = (QnaVO)qnaDAO.detail(qnaVO);
 		qnaVO.setBoardRef(parent.getBoardRef());
 		qnaVO.setBoardStep(parent.getBoardStep() + 1);
@@ -48,6 +48,20 @@ public class QnaService implements BoardService {
 		
 		int result = qnaDAO.replyUpdate(parent);
 		result = qnaDAO.replyInsert(qnaVO);
+		
+		for (MultipartFile file : attaches) {
+			if (file == null || file.isEmpty()) continue;
+			
+			// 1. 파일을 하드에 저장
+			String fileName = fileManager.fileSave(upload + board, file);
+			
+			// 2. 저장된 파일의 정보를 DB에 저장
+			BoardFileVO boardFileVO = new BoardFileVO();
+			boardFileVO.setOriName(file.getOriginalFilename());
+			boardFileVO.setSaveName(fileName);
+			boardFileVO.setBoardNum(qnaVO.getBoardNum());
+			result = qnaDAO.insertFile(boardFileVO);			
+		}
 		
 		return result;
 	}
