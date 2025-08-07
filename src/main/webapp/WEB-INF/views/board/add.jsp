@@ -35,8 +35,11 @@
 								placeholder="Write your content here!" id="content"
 								style="height: 100px" name="boardContent">${ notice.boardContent }</textarea>
 						</div>
-						<div class="mb-4">
-							<input type="file" name="attaches">
+						<div>
+							<button type="button" id="add" class="btn btn-primary">File Plus</button>
+						</div>
+						<div id="result">
+							<!-- File Plus -->
 						</div>
 						<button type="submit" class="btn btn-primary">Submit</button>
 					</form>
@@ -46,5 +49,6 @@
 		</div>
 	</div>
 	<%@ include file="/WEB-INF/views/include/tail.jsp"%>
+	<script type="text/javascript" src="/js/board/board_add.js"></script>
 </body>
 </html>
