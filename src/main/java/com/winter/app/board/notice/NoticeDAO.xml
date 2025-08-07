@@ -16,6 +16,17 @@
 		</association>
 	</resultMap>
 
+	<sql id="search">
+		<where>
+			<choose>
+				<when test='kind == "k1"'>BOARD_TITLE</when>
+				<when test='kind == "k2"'>BOARD_CONTENT</when>
+				<otherwise>BOARD_WRITER</otherwise>			
+			</choose>
+			LIKE CONCAT('%',#{keyword},'%')
+		</where>
+	</sql>
+
 
 	<!-- Query ID는 DAO의 메서드명과 동일하게 작성 -->
 	<insert id="insert" parameterType="NoticeVO" useGeneratedKeys="true" keyProperty="boardNum">
@@ -37,12 +48,12 @@
 	</select>
 	
 	<select id="noticeList" resultType="NoticeVO" parameterType="Pager">
-		SELECT * FROM NOTICE ORDER BY BOARD_NUM DESC
+		SELECT * FROM NOTICE <include refid="search"></include> ORDER BY BOARD_NUM DESC
 		LIMIT #{startIndex}, #{endIndex}
 	</select>
 	
-	<select id="getTotalCount" resultType="Long">
-		SELECT COUNT(BOARD_NUM) FROM NOTICE
+	<select id="getTotalCount" resultType="Long" parameterType="Pager">
+		SELECT COUNT(BOARD_NUM) FROM NOTICE <include refid="search"></include>
 	</select>
 	
 	<insert id="insertFile" parameterType="BoardFileVO">

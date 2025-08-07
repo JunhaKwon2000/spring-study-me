@@ -17,8 +17,18 @@ public class Pager {
 	// Limit의 끝(페이지당 보여줄 row의 갯수)
 	private Long perPage;
 	
+	// 클라이언트에서 받아오는 변수
 	// 현재 페이지 번호
 	private Long pageNum;
+	// 검색 종류
+	private String kind;
+	// 검색 키워드
+	private String keyword;
+	
+	public String getKeyword() {
+		if (this.keyword == null) this.keyword = "";
+		return this.keyword;
+	}
 	
 	private Long totalPage;
 	
