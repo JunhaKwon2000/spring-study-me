@@ -19,20 +19,12 @@
 					<p>작성자 : ${ notice.boardWriter } </p>
 					<p>내용 : ${ notice.boardContent } </p>
 					<p>작성일 : ${ notice.boardDate } </p>
-	                <div class="card shadow mb-4">
-	                    <div class="card-header py-3">
-	                        <h6 class="m-0 font-weight-bold text-primary">${ notice.boardTitle }(${ notice.boardWriter } - ${ notice.boardDate })</h6>
-	                    </div>
-	                    <div class="card-body">
-							${ notice.boardContent }
-							<br>
-							파일 정보
-							<br>
-							<a href="/files/${ board }/${ notice.boardFileVO.saveName }">${ notice.boardFileVO.oriName }</a>
-							<br>
-							${ notice.boardFileVO.saveName }
-	                    </div>
-	                </div>
+					<p>[첨부파일]</p>
+					<c:forEach items="${ notice.boardFileVO }" var="file">
+						<a href="/files/${ board }/${ file.saveName }">${ file.oriName }</a>
+						<br>
+						${ file.saveName }							
+					</c:forEach>
 	                <div>
 	                	<form id="frm">
 	                		<input type="hidden" name="boardNum" value=${ notice.boardNum }>

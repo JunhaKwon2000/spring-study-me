@@ -9,11 +9,12 @@
 		<result column="BOARD_WRITER" property="boardWriter"/>
 		<result column="BOARD_DATE" property="boardDate"/>
 		<result column="BOARD_HIT" property="boardHit"/>
-		<association property="boardFileVO" javaType="BoardFileVO">
+		<collection property="boardFileVO" javaType="java.util.List" ofType="BoardFileVO">
+			<!-- duplicate column when join(board_num) should be excluded -->
 			<result column="FILE_NUM" property="fileNum"/>
 			<result column="ORI_NAME" property="oriName"/>
 			<result column="SAVE_NAME" property="saveName"/>
-		</association>
+		</collection>
 	</resultMap>
 
 	<sql id="search">
@@ -26,7 +27,6 @@
 			LIKE CONCAT('%',#{keyword},'%')
 		</where>
 	</sql>
-
 
 	<!-- Query ID는 DAO의 메서드명과 동일하게 작성 -->
 	<insert id="insert" parameterType="NoticeVO" useGeneratedKeys="true" keyProperty="boardNum">
@@ -41,6 +41,10 @@
 	
 	<delete id="delete" parameterType="NoticeVO">
 		DELETE FROM NOTICE WHERE BOARD_NUM = #{boardNum}
+	</delete>
+	
+	<delete id="fileDelete" parameterType="NoticeVO">
+		DELETE FROM NOTICE_FILES WHERE BOARD_NUM = #{boardNum}
 	</delete>
 	
 	<select id="detail" parameterType="NoticeVO" resultMap="detailResultMap">

@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core"%>
+<%@ taglib prefix="fn" uri="jakarta.tags.functions" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -38,7 +39,14 @@
 						<div>
 							<button type="button" id="add" class="btn btn-primary">File Plus</button>
 						</div>
-						<div id="result">
+						<div>
+							<c:forEach items="${ notice.boardFileVO }" var="file">
+								<button type="button" class="deleteFile" data-file-num="${ file.fileNum }">${ file.oriName }</button>
+							</c:forEach>
+						</div>
+						<!-- 업데이트 할 때 현재 파일의 개수를 보여주는 것 -->
+						<!-- ${notice.boardFileVO.size()} 이것도 가능 -->
+						<div id="result" data-file-count="${notice.boardFileVO.size()}">
 							<!-- File Plus -->
 						</div>
 						<button type="submit" class="btn btn-primary">Submit</button>

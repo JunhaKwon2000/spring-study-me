@@ -15,7 +15,7 @@ public interface BoardService {
 	BoardVO detail(BoardVO boardVO) throws Exception;
 	
 	// insert
-	int add(BoardVO boardVO, MultipartFile attaches) throws Exception;
+	int add(BoardVO boardVO, MultipartFile[] attaches) throws Exception;
 	
 	// update
 	int update(BoardVO boardVO) throws Exception;

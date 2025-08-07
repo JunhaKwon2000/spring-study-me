@@ -10,8 +10,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.winter.app.board.BoardFileVO;
 import com.winter.app.board.BoardVO;
 import com.winter.app.commons.Pager;
 
@@ -39,7 +41,7 @@ public class NoticeController {
 	}
 	
 	@PostMapping("add")
-	public String insert(NoticeVO noticeVO, MultipartFile attaches) throws Exception {
+	public String insert(NoticeVO noticeVO, MultipartFile[] attaches) throws Exception {
 		int result = noticeService.add(noticeVO, attaches);
 		if (result > 0) {
 			return "redirect:./list";
@@ -94,6 +96,17 @@ public class NoticeController {
 		model.addAttribute("pager", pager);
 		model.addAttribute("list", result);
 		return "board/list";
+	}
+	
+	@PostMapping("fileDelete")
+	@ResponseBody
+	public List<BoardVO> fileDelete(BoardFileVO boardFileVO, Model model) throws Exception {
+		model.addAttribute("result", boardFileVO.getFileNum());
+		
+		// 예제
+		Pager pager = new Pager();
+		List<BoardVO> list = noticeService.noticeList(pager);
+		return list;
 	}
 
 }

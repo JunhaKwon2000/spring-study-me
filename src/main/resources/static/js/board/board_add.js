@@ -3,20 +3,50 @@
  */
 const btn = document.querySelector('#add');
 const result = document.querySelector('#result');
+// fast way of transforming String into Integer => checker * 1
+// when java variable transfers to another(JS) it becomes String
+let checker = Number(result.getAttribute('data-file-count'));
+const deleteFile = document.querySelectorAll('.deleteFile');
+
+//
+deleteFile.forEach(el => {
+	el.addEventListener('click', () => {
+		const fileNum = Number(el.getAttribute('data-file-num'));
+		// fetch
+		let params = new URLSearchParams();
+		params.append("fileNum", fileNum);
+		fetch('./fileDelete', {
+			method: 'POST',
+			body: params
+		})
+		.then(res => res.json()) // text로 꺼내서 다음 then의 response에 넣어줌(json은 json으로 변환해서 하셈)
+		.then(res => console.log(res))
+	});	
+});
+
+//
 btn.addEventListener('click', (e) => {
 	const el = document.createElement('div');
 	el.classList.add('mb-4');
+	
 	const file = document.createElement('input');
 	file.setAttribute('type', 'file');
 	file.setAttribute('name', 'attaches');
 	file.classList.add('form-control');
 	el.appendChild(file);
+	
 	const axe = document.createElement('button');
 	axe.setAttribute('type', 'button');
 	axe.textContent = 'X';
-	axe.classList.add('axe');
-	result.appendChild(el);
+	axe.classList.add('axe', 'btn', 'btn-danger');
 	el.appendChild(axe);
+
+	if (checker > 4) {
+		window.alert('Only 5 files are allowed'); 
+		return;
+	}
+	else checker = checker + 1;
+	result.appendChild(el);
 });
 
 // event 위임
@@ -25,5 +55,6 @@ result.addEventListener('click', (e) => {
 	//const parent = e.target.parentElement;
 	if (e.target.classList.contains('axe')) {
 		parent.remove();
+		checker = checker - 1;
 	}
 });
