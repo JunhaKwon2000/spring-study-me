@@ -12,15 +12,28 @@
 		<result column="BOARD_REF" property="boardRef"/>
 		<result column="BOARD_STEP" property="boardStep"/>
 		<result column="BOARD_DEPTH" property="boardDepth"/>
-		<association property="boardFileVO" javaType="BoardFileVO">
+		<collection property="boardFileVO" javaType="java.util.List" ofType="BoardFileVO">
 			<result column="FILE_NUM" property="fileNum"/>
 			<result column="ORI_NAME" property="oriName"/>
 			<result column="SAVE_NAME" property="saveName"/>
-		</association>
+		</collection>
 	</resultMap>
 	
-	<select id="noticeList" resultType="QnaVO">
-		SELECT * FROM QNA ORDER BY BOARD_REF DESC, BOARD_STEP ASC
+	<sql id="search">
+		<where>
+			<choose>
+				<when test='kind == "k1"'>BOARD_TITLE</when>
+				<when test='kind == "k2"'>BOARD_CONTENT</when>
+				<otherwise>BOARD_WRITER</otherwise>			
+			</choose>
+			LIKE CONCAT('%',#{keyword},'%')
+		</where>
+	</sql>
+	
+	<select id="noticeList" resultType="QnaVO" parameterType="Pager">
+		SELECT * FROM QNA 
+		<include refid="search"></include>
+		ORDER BY BOARD_REF DESC, BOARD_STEP ASC
 		LIMIT #{startIndex}, #{endIndex}
 	</select>
 	
@@ -48,8 +61,8 @@
 		VALUES (NULL, #{boardTitle}, #{boardContent}, #{boardWriter}, now(), 0, #{boardRef}, #{boardStep}, #{boardDepth})
 	</insert>
 	
-	<select id="getTotalCount" resultType="Long">
-		SELECT COUNT(BOARD_NUM) FROM QNA
+	<select id="getTotalCount" resultType="Long" parameterType="Pager">
+		SELECT COUNT(BOARD_NUM) FROM QNA <include refid="search"></include>
 	</select>
 	
 	<insert id="insertFile" parameterType="BoardFileVO">

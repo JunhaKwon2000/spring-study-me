@@ -33,7 +33,7 @@ public class NoticeController {
 	@ModelAttribute("board")
 	public String getBoard() {
 		return name;
-	};
+	}
 	
 	@GetMapping("add")
 	public String add() throws Exception {
@@ -41,7 +41,7 @@ public class NoticeController {
 	}
 	
 	@PostMapping("add")
-	public String insert(NoticeVO noticeVO, MultipartFile[] attaches) throws Exception {
+	public String insert(@ModelAttribute NoticeVO noticeVO, MultipartFile[] attaches) throws Exception {
 		int result = noticeService.add(noticeVO, attaches);
 		if (result > 0) {
 			return "redirect:./list";

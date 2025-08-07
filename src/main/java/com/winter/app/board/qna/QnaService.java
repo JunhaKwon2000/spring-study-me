@@ -30,7 +30,7 @@ public class QnaService implements BoardService {
 
 	@Override
 	public List<BoardVO> noticeList(Pager pager) throws Exception {
-		Long totalCount = qnaDAO.getTotalCount();
+		Long totalCount = qnaDAO.getTotalCount(pager);
 		pager.makeNum(totalCount);
 		return qnaDAO.noticeList(pager);
 	}
@@ -53,19 +53,27 @@ public class QnaService implements BoardService {
 	}
 
 	@Override
-	public int add(BoardVO qnaVO, MultipartFile attaches) throws Exception {
+	public int add(BoardVO qnaVO, MultipartFile[] attaches) throws Exception {
 		int result = qnaDAO.insert(qnaVO);
 		
-		String fileName = fileManager.fileSave(upload + board, attaches);
+		for (MultipartFile file : attaches) {
+			if (file == null || file.isEmpty()) continue;
+			
+			// 1. 파일을 하드에 저장
+			String fileName = fileManager.fileSave(upload + board, file);
+			
+			// 2. 저장된 파일의 정보를 DB에 저장
+			BoardFileVO boardFileVO = new BoardFileVO();
+			boardFileVO.setOriName(file.getOriginalFilename());
+			boardFileVO.setSaveName(fileName);
+			boardFileVO.setBoardNum(qnaVO.getBoardNum());
+			result = qnaDAO.insertFile(boardFileVO);			
+		}
 		
-		BoardFileVO boardFileVO = new BoardFileVO();
-		boardFileVO.setOriName(attaches.getOriginalFilename());
-		boardFileVO.setSaveName(fileName);
-		boardFileVO.setBoardNum(qnaVO.getBoardNum());
-		result = qnaDAO.insertFile(boardFileVO);
 		
 		// ref값 업데이트
 		result = qnaDAO.refUpdate(qnaVO);
+		
 		return result;
 	}
 

@@ -46,9 +46,7 @@ public class NoticeService implements BoardService {
 		int result = noticeDAO.insert(noticeVO);
 		
 		for (MultipartFile file : attaches) {			
-			if (file == null || file.isEmpty()) {
-				continue;
-			}
+			if (file == null || file.isEmpty()) continue;
 			
 			// 1. 파일을 하드에 저장
 			String fileName = fileManager.fileSave(upload + board, file);

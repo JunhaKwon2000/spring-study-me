@@ -21,9 +21,8 @@
 					<p>작성일 : ${ notice.boardDate } </p>
 					<p>[첨부파일]</p>
 					<c:forEach items="${ notice.boardFileVO }" var="file">
-						<a href="/files/${ board }/${ file.saveName }">${ file.oriName }</a>
+						<a href="/files/${ board }/${ file.saveName }">${ file.oriName }</a> : ${ file.saveName }
 						<br>
-						${ file.saveName }							
 					</c:forEach>
 	                <div>
 	                	<form id="frm">
