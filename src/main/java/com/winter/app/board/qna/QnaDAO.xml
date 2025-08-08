@@ -31,38 +31,38 @@
 	</sql>
 	
 	<select id="noticeList" resultType="QnaVO" parameterType="Pager">
-		SELECT * FROM QNA 
+		SELECT * FROM qna 
 		<include refid="search"></include>
 		ORDER BY BOARD_REF DESC, BOARD_STEP ASC
 		LIMIT #{startIndex}, #{endIndex}
 	</select>
 	
 	<insert id="insert" parameterType="QnaVO" useGeneratedKeys="true" keyProperty="boardNum">
-		INSERT INTO QNA (BOARD_NUM, BOARD_TITLE, BOARD_CONTENT, BOARD_WRITER, BOARD_DATE, BOARD_HIT, BOARD_REF, BOARD_STEP, BOARD_DEPTH) 
+		INSERT INTO qna (BOARD_NUM, BOARD_TITLE, BOARD_CONTENT, BOARD_WRITER, BOARD_DATE, BOARD_HIT, BOARD_REF, BOARD_STEP, BOARD_DEPTH) 
 		VALUES (NULL, #{boardTitle}, #{boardContent}, #{boardWriter}, now(), 0, 0, 0, 0)
 	</insert>
 	
 	<update id="refUpdate" parameterType="QnaVO">
-		UPDATE QNA SET BOARD_REF = #{boardNum} WHERE BOARD_NUM = #{boardNum}
+		UPDATE qna SET BOARD_REF = #{boardNum} WHERE BOARD_NUM = #{boardNum}
 	</update>
 	
 	<select id="detail" parameterType="QnaVO" resultMap="detailResultMap">
-		SELECT * FROM QNA q LEFT JOIN QNA_FILES qf ON q.BOARD_NUM = qf.BOARD_NUM 
+		SELECT * FROM qna q LEFT JOIN QNA_FILES qf ON q.BOARD_NUM = qf.BOARD_NUM 
 		WHERE q.BOARD_NUM = #{boardNum}
 	</select>
 	
 	<update id="replyUpdate" parameterType="QnaVO">
-		UPDATE QNA SET BOARD_STEP = BOARD_STEP + 1
+		UPDATE qna SET BOARD_STEP = BOARD_STEP + 1
 		WHERE BOARD_REF = #{boardRef} AND BOARD_STEP > #{boardStep}
 	</update>
 	
 	<insert id="replyInsert" parameterType="QnaVO" useGeneratedKeys="true" keyProperty="boardNum">
-		INSERT INTO QNA (BOARD_NUM, BOARD_TITLE, BOARD_CONTENT, BOARD_WRITER, BOARD_DATE, BOARD_HIT, BOARD_REF, BOARD_STEP, BOARD_DEPTH)
+		INSERT INTO qna (BOARD_NUM, BOARD_TITLE, BOARD_CONTENT, BOARD_WRITER, BOARD_DATE, BOARD_HIT, BOARD_REF, BOARD_STEP, BOARD_DEPTH)
 		VALUES (NULL, #{boardTitle}, #{boardContent}, #{boardWriter}, now(), 0, #{boardRef}, #{boardStep}, #{boardDepth})
 	</insert>
 	
 	<select id="getTotalCount" resultType="Long" parameterType="Pager">
-		SELECT COUNT(BOARD_NUM) FROM QNA <include refid="search"></include>
+		SELECT COUNT(BOARD_NUM) FROM qna <include refid="search"></include>
 	</select>
 	
 	<insert id="insertFile" parameterType="BoardFileVO">

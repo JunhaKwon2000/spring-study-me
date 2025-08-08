@@ -15,7 +15,7 @@
 	</resultMap>
 
 	<select id="list" resultType="ProductsVO">
-		SELECT * FROM PRODUCTS ORDER BY PRODUCT_NUM DESC
+		SELECT * FROM products ORDER BY PRODUCT_NUM DESC
 	</select>
 	
 	<select id="detail" parameterType="ProductsVO" resultMap="detailResultMap">
@@ -23,15 +23,15 @@
 	</select>
 	
 	<insert id="add" parameterType="ProductsVO">
-		INSERT INTO PRODUCTS VALUES (NULL, #{productName}, #{productContent}, #{productDate}, #{productRate}, #{kindNum})
+		INSERT INTO products VALUES (NULL, #{productName}, #{productContent}, #{productDate}, #{productRate}, #{kindNum})
 	</insert>
 	
 	<delete id="delete" parameterType="ProductsVO">
-		DELETE FROM PRODUCTS WHERE PRODUCT_NUM = #{productNum}
+		DELETE FROM products WHERE PRODUCT_NUM = #{productNum}
 	</delete>
 	
 	<update id="update" parameterType="ProductsVO">
-		UPDATE PRODUCTS SET PRODUCT_NAME = #{productName}, PRODUCT_CONTENT = #{productContent}, PRODUCT_DATE = #{productDate}, PRODUCT_RATE = #{productRate}, KIND_NUM = #{kindNum}
+		UPDATE products SET PRODUCT_NAME = #{productName}, PRODUCT_CONTENT = #{productContent}, PRODUCT_DATE = #{productDate}, PRODUCT_RATE = #{productRate}, KIND_NUM = #{kindNum}
 		WHERE PRODUCT_NUM = #{productNum}
 	</update>
 	
