@@ -14,24 +14,25 @@
 			<div id="content">
 				<%@ include file="/WEB-INF/views/include/topbar.jsp" %>
                 <div class="container-fluid">
+                	<h1 class="h3 mb-4 text-gray-800 text-uppercase">${ board }</h1>
 					<p>제목 : ${ notice.boardTitle }</p>
 					<p>작성자 : ${ notice.boardWriter } </p>
 					<p>내용 : ${ notice.boardContent } </p>
 					<p>작성일 : ${ notice.boardDate } </p>
-	                <div class="card shadow mb-4">
-	                    <div class="card-header py-3">
-	                        <h6 class="m-0 font-weight-bold text-primary">${ notice.boardTitle }(${ notice.boardWriter } - ${ notice.boardDate })</h6>
-	                    </div>
-	                    <div class="card-body">
-							${ notice.boardContent }
-	                    </div>
-	                </div>
+					<p>[첨부파일]</p>
+					<c:forEach items="${ notice.boardFileVO }" var="file">
+						<a href="/files/${ board }/${ file.saveName }">${ file.oriName }</a> : ${ file.saveName }
+						<br>
+					</c:forEach>
 	                <div>
 	                	<form id="frm">
 	                		<input type="hidden" name="boardNum" value=${ notice.boardNum }>
 	                	</form>
 	                	<button class="btn btn-warning action" data-kind="u">Update</button>
 	                	<button class="btn btn-danger action" data-kind="d">Delete</button>
+	                	<c:if test="${ board ne 'notice' }">
+		                	<button class="btn btn-primary action" data-kind="r">Reply</button>
+	                	</c:if>
 	                </div>
                 </div>
 			</div>

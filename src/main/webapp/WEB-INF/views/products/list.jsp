@@ -15,30 +15,26 @@
 				<%@ include file="/WEB-INF/views/include/topbar.jsp" %>
                 <div class="container-fluid">
 	                <!-- 페이지 본문 -->
-	                <div class="row col-md-8 offset-md-2">
+   	                <div class="row col-md-8 offset-md-2">
 	                	<table class="table">
 	                		<thead>
 	                			<tr>
-	                				<th>No</th>
-	                				<th>Title</th>
-	                				<th>Writer</th>
-	                				<th>Date</th>
-	                				<th>Hit</th>
+	                				<th>상품명</th>
+	                				<th>이자율</th>
+	                				<th>최대 가입 날짜</th>
 	                			</tr>
 	                		</thead>
 	                		<tbody>
-	                			<c:forEach var="notice" items="${ list }">
+	                			<c:forEach var="products" items="${ list }">
 		                			<tr>
-		                				<td>${ notice.boardNum }</td>
-		                				<td><a href="./detail?boardNum=${ notice.boardNum }">${ notice.boardTitle }</a></td>
-		                				<td>${ notice.boardWriter }</td>
-		                				<td>${ notice.boardDate }</td>
-		                				<td>${ notice.boardHit }</td>
+		                				<td><a href="./detail?productNum=${ products.productNum }">${ products.productName }</a></td>
+		                				<td>${ products.productRate }</td>
+		                				<td>${ products.productDate }</td>
 		                			</tr>	                			
 	                			</c:forEach>
 	                		</tbody>
 	                	</table>
-	                	<div><a href="./add" class="btn btn-primary" role="button">글쓰기</a></div>
+		                <div><a href="./add" class="btn btn-primary" role="button">Product Add</a></div>
 	                </div>
                 </div>
 			</div>
