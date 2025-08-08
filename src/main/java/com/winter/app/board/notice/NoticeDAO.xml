@@ -48,7 +48,7 @@
 	</delete>
 	
 	<select id="detail" parameterType="NoticeVO" resultMap="detailResultMap">
-		SELECT * FROM notice n LEFT JOIN NOTICE_FILES nf ON n.BOARD_NUM = nf.BOARD_NUM WHERE n.BOARD_NUM = #{boardNum};
+		SELECT * FROM notice n LEFT JOIN notice_files nf ON n.BOARD_NUM = nf.BOARD_NUM WHERE n.BOARD_NUM = #{boardNum};
 	</select>
 	
 	<select id="noticeList" resultType="NoticeVO" parameterType="Pager">
