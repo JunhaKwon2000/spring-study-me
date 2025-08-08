@@ -17,6 +17,10 @@
 	                <!-- 페이지 본문 -->
 	                <div class="col-md-8 offset-md-2">
 		                <h1 class="h3 mb-4 text-gray-800">${ board }</h1>
+						<c:if test="${ list.size() eq 0 }">
+		                	<h1 class="h4 mb-4 text-gray-800">There is nothing to show...</h1>	                	
+						</c:if>
+						<c:if test="${ list.size() ne 0 }">
 		                <div>
 	                		<form method="get" id="frm">	
 	                			<input type="hidden" name="pageNum" id="pageNum">
@@ -77,6 +81,7 @@
 								</ul>
 							</nav>
 	                	</div>
+	                	</c:if>
 	                	<div><a href="./add" class="btn btn-primary" role="button">글쓰기</a></div>
 	                </div>
                 </div>
