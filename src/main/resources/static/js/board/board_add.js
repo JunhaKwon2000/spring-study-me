@@ -11,16 +11,26 @@ const deleteFile = document.querySelectorAll('.deleteFile');
 //
 deleteFile.forEach(el => {
 	el.addEventListener('click', () => {
-		const fileNum = Number(el.getAttribute('data-file-num'));
 		// fetch
+		const deleteFlag = window.confirm('Delete File? (Can not be undone)');
+		if (!deleteFlag) return;
 		let params = new URLSearchParams();
-		params.append("fileNum", fileNum);
+		params.append("fileNum", Number(el.getAttribute('data-file-num')));
 		fetch('./fileDelete', {
 			method: 'POST',
 			body: params
 		})
-		.then(res => res.json()) // text로 꺼내서 다음 then의 response에 넣어줌(json은 json으로 변환해서 하셈)
-		.then(res => console.log(res))
+		.then(response => response.json()) // text로 꺼내서 다음 then의 response에 넣어줌(json은 json으로 변환해서 하셈)
+		.then(response => {
+			// response.trim(); // text로 받았을 때 엔터가 들어있으면 조건문에서 비교가 힘듦, json은 이거 안해도 됨 
+			if (response == 1) {
+				checker--;
+				window.alert('Delete Complete');
+				el.remove();
+			} else {
+				window.alert('Delete Fail');
+			}
+		});
 	});	
 });
 

@@ -58,8 +58,8 @@ public class NoticeController {
 	}
 	
 	@PostMapping("update")
-	public String update(NoticeVO noticeVO, Model model) throws Exception {
-		int result = noticeService.update(noticeVO);
+	public String update(NoticeVO noticeVO, MultipartFile[] attaches, Model model) throws Exception {
+		int result = noticeService.update(noticeVO, attaches);
 		String msg = "Update Fail";
 		String url = "./detail?boardNum=" + noticeVO.getBoardNum();
 		if (result > 0) {
@@ -99,14 +99,10 @@ public class NoticeController {
 	}
 	
 	@PostMapping("fileDelete")
-	@ResponseBody
-	public List<BoardVO> fileDelete(BoardFileVO boardFileVO, Model model) throws Exception {
-		model.addAttribute("result", boardFileVO.getFileNum());
-		
-		// 예제
-		Pager pager = new Pager();
-		List<BoardVO> list = noticeService.noticeList(pager);
-		return list;
+	@ResponseBody // return 하는 친구를 바로 json 으로 바꿔서 return
+	public int fileDelete(BoardFileVO boardFileVO, Model model) throws Exception {
+		int result = noticeService.fileDelete(boardFileVO);
+		return result;
 	}
 
 }

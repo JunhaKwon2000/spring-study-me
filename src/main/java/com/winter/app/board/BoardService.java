@@ -18,9 +18,12 @@ public interface BoardService {
 	int add(BoardVO boardVO, MultipartFile[] attaches) throws Exception;
 	
 	// update
-	int update(BoardVO boardVO) throws Exception;
+	int update(BoardVO boardVO, MultipartFile[] attaches) throws Exception;
 	
 	// delete
 	int delete(BoardVO boardVO) throws Exception;
+	
+	// file delete
+	int fileDelete(BoardFileVO boardFileVO) throws Exception;
 	
 }

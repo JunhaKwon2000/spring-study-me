@@ -69,4 +69,25 @@
 		INSERT INTO QNA_FILES VALUES (NULL, #{boardNum}, #{oriName}, #{saveName})
 	</insert>
 	
+	<delete id="fileDelete" parameterType="QnaVO">
+		DELETE FROM QNA_FILES WHERE BOARD_NUM = #{boardNum}
+	</delete>
+	
+	<update id="delete" parameterType="QnaVO">
+		UPDATE QNA SET BOARD_TITLE = 'DELETED_POST_CODE_20001020' WHERE BOARD_NUM = #{boardNum}
+	</update>
+	
+	<delete id="fileDeleteByFileNum" parameterType="BoardFileVO">
+		DELETE FROM QNA_FILES WHERE FILE_NUM = #{fileNum}
+	</delete>
+	
+	<update id="update" parameterType="QnaVO">
+		UPDATE QNA SET BOARD_TITLE = #{boardTitle}, BOARD_WRITER = #{boardWriter}, BOARD_CONTENT = #{boardContent}
+		WHERE BOARD_NUM = #{boardNum}
+	</update>
+	
+	<select id="fileDetail" parameterType="BoardFileVO" resultType="BoardFileVO">
+		SELECT * FROM QNA_FILES WHERE FILE_NUM = #{fileNum}
+	</select>
+	
 </mapper>

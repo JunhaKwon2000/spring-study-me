@@ -49,10 +49,15 @@
 		                				<td>
 			                				<c:catch>
 												<c:forEach begin="1" end="${ notice.boardDepth }">
-												&#128511;
+												&#127808;
 												</c:forEach>			                				
 			                				</c:catch>
-		                					<a href="./detail?boardNum=${ notice.boardNum }">${ notice.boardTitle }</a>
+			                				<c:if test="${ notice.boardTitle ne 'DELETED_POST_CODE_20001020' }">
+			                					<a href="./detail?boardNum=${ notice.boardNum }">${ notice.boardTitle }</a>			                				
+			                				</c:if>
+			                				<c:if test="${ notice.boardTitle eq 'DELETED_POST_CODE_20001020' }">			                				
+			                					Deleted Post			                				
+			                				</c:if>
 	                					</td>
 		                				<td>${ notice.boardWriter }</td>
 		                				<td>${ notice.boardDate }</td>

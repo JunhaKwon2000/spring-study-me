@@ -45,6 +45,8 @@ public class NoticeService implements BoardService {
 	public int add(BoardVO noticeVO, MultipartFile[] attaches) throws Exception {
 		int result = noticeDAO.insert(noticeVO);
 		
+		if (attaches == null) return result; // 글만 있을 경우
+		
 		for (MultipartFile file : attaches) {			
 			if (file == null || file.isEmpty()) continue;
 			
@@ -65,8 +67,27 @@ public class NoticeService implements BoardService {
 	}
 
 	@Override
-	public int update(BoardVO noticeVO) throws Exception {
-		return noticeDAO.update(noticeVO);
+	public int update(BoardVO noticeVO, MultipartFile[] attaches) throws Exception {
+		int result = noticeDAO.update(noticeVO);
+		
+		if (attaches == null) return result; // 글만 있을 경우
+		
+		for (MultipartFile file : attaches) {
+			if (file == null || file.isEmpty()) continue;
+			
+			// 1. 파일을 하드에 저장
+			String fileName = fileManager.fileSave(upload + board, file);
+			
+			// 2. 파일정보를 DB에 저장
+			BoardFileVO boardFileVO = new BoardFileVO();
+			boardFileVO.setOriName(file.getOriginalFilename());
+			boardFileVO.setSaveName(fileName);
+			boardFileVO.setBoardNum(noticeVO.getBoardNum());
+			result = noticeDAO.insertFile(boardFileVO);
+		}
+		
+		return result;
+		
 	}
 
 	@Override
@@ -76,7 +97,22 @@ public class NoticeService implements BoardService {
 			fileManager.fileDelete(upload + board, file.getSaveName());
 		}
 		int result = noticeDAO.fileDelete(noticeVO);
-		return noticeDAO.delete(noticeVO);
+		result = noticeDAO.delete(noticeVO); 
+		return result;
+	}
+
+	@Override
+	public int fileDelete(BoardFileVO boardFileVO) throws Exception {
+		// 1. file 조회
+		boardFileVO = noticeDAO.fileDetail(boardFileVO);
+		
+		// 2. file 삭제
+		boolean fileDelteResult = fileManager.fileDelete(upload + board, boardFileVO.getSaveName());
+		
+		// 3. DB 삭제
+		int dbDeleteResult = noticeDAO.fileDeleteByFileNum(boardFileVO);
+		
+		return dbDeleteResult;
 	}
 	
 }

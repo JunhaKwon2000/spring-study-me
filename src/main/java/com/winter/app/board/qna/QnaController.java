@@ -10,8 +10,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.winter.app.board.BoardFileVO;
 import com.winter.app.board.BoardVO;
 import com.winter.app.commons.Pager;
 
@@ -83,6 +85,44 @@ public class QnaController {
 		model.addAttribute("msg", msg);
 		model.addAttribute("url", url);
 		return "common/result";
+	}
+	
+	@PostMapping("delete")
+	public String delete(QnaVO qnaVO, Model model) throws Exception {
+		int result = qnaService.delete(qnaVO);
+		String msg = "Delete Fail";
+		String url = "./list";
+		if (result > 0) msg = "Delete Complete";
+		model.addAttribute("msg", msg);
+		model.addAttribute("url", url);
+		return "common/result";
+	}
+	
+	@GetMapping("update")
+	public String update(QnaVO qnaVO, Model model) throws Exception {
+		QnaVO result = (QnaVO)qnaService.detail(qnaVO);
+		model.addAttribute("notice", result);
+		return "board/add";
+	}
+	
+	@PostMapping("update")
+	public String update(QnaVO qnaVO, MultipartFile[] attaches, Model model) throws Exception {
+		int result = qnaService.update(qnaVO, attaches);
+		String msg = "Update Fail";
+		String url = "./detail?boardNum=" + qnaVO.getBoardNum();
+		if (result > 0) {
+			msg = "Update Complete";
+		}
+		model.addAttribute("msg", msg);
+		model.addAttribute("url", url);
+		return "common/result";
+	}
+	
+	@PostMapping("fileDelete")
+	@ResponseBody
+	public int fileDelete(BoardFileVO boardFileVO) throws Exception {
+		int result = qnaService.fileDelete(boardFileVO);
+		return result;
 	}
 	
 }
