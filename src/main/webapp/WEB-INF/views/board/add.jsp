@@ -8,6 +8,7 @@
 <meta charset="UTF-8">
 <title>Home</title>
 <%@ include file="/WEB-INF/views/include/head_css.jsp"%>
+<link href="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote-lite.min.css" rel="stylesheet">
 </head>
 <body id="page-top">
 	<div id="wrapper">
@@ -33,7 +34,7 @@
 						<div class="mb-4">
 							<label for="content">Comments</label>
 							<textarea class="form-control"
-								placeholder="Write your content here!" id="content"
+								placeholder="Write your content here!" id="contents"
 								style="height: 100px" name="boardContent">${ notice.boardContent }</textarea>
 						</div>
 						<div>
@@ -57,6 +58,43 @@
 		</div>
 	</div>
 	<%@ include file="/WEB-INF/views/include/tail.jsp"%>
-	<script type="text/javascript" src="/js/board/board_add.js"></script>
+	<script type="text/javascript" src="/js/board/board_add.js"></script>	
+	<script src="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote-lite.min.js"></script>
+	<script type="text/javascript">
+		$('#contents').summernote({
+			callbacks: {
+				onImageUpload: (files) => {
+					let form = new FormData();
+					form.append('boardFile', files[0]);
+					fetch("./boardFile", {
+						method: 'POST',
+						body: form
+					})
+					.then(response => response.text())
+					.then(response => {
+						// console.log(response);
+						$('#contents').summernote('editor.insertImage', response);
+					})
+					.catch(e => console.log(e));
+				},
+				onMediaDelete: (files) => {
+					let form = new FormData();
+					form.append('fileName', $(files[0]).attr('src')); // /files/notice/...jpg
+					fetch("./boardFileDelete", {
+						method: 'POST',
+						body: form
+					})
+					.then(response => response.json())
+					.then(response => {
+						if (response) {
+							window.alert('File Deleted');
+						} else {
+							window.alert('Delete Fail');							
+						}
+					})
+				}
+			}
+		});
+	</script>
 </body>
 </html>

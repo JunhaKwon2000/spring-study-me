@@ -1,6 +1,7 @@
 package com.winter.app.board;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.web.multipart.MultipartFile;
 
@@ -28,5 +29,12 @@ public interface BoardService {
 	
 	// file detail
 	BoardFileVO fileDetail(BoardFileVO boardFileVO) throws Exception;
+	
+	// board detail images content temporal upload
+	String boardFile(MultipartFile boardFile) throws Exception;
+	
+	// board detail images content delete
+	boolean boardFileDelete(String fileName) throws Exception;
+	
 	
 }

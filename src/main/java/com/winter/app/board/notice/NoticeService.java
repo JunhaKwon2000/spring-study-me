@@ -1,6 +1,8 @@
 package com.winter.app.board.notice;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -118,6 +120,22 @@ public class NoticeService implements BoardService {
 	@Override
 	public BoardFileVO fileDetail(BoardFileVO boardFileVO) throws Exception {
 		return noticeDAO.fileDetail(boardFileVO);
+	}
+
+	@Override
+	public String boardFile(MultipartFile boardFile) throws Exception {
+		if (boardFile == null || boardFile.getSize() == 0) return null;
+		String fileName = fileManager.fileSave(upload + board, boardFile);
+		String filePath = "/files/" + board + "/" + fileName;
+		return filePath;
+	}
+
+	@Override
+	public boolean boardFileDelete(String fileName) throws Exception {
+		if (fileName == null || "".equals(fileName)) return false;
+		fileName = fileName.substring(fileName.lastIndexOf("/"));
+		boolean flag = fileManager.fileDelete(upload + board, fileName);
+		return flag;
 	}
 	
 }

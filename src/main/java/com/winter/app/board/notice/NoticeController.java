@@ -1,6 +1,7 @@
 package com.winter.app.board.notice;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -110,6 +111,22 @@ public class NoticeController {
 		boardFileVO = noticeService.fileDetail(boardFileVO); // 객체 재사용(파라미터로 온 것에다가 넣음)
 		model.addAttribute("file", boardFileVO);
 		return "fileDownView"; // custom view 가 제일 먼저임(jsp보다 먼저) - bean의 이름을 먼저 찾아봄(모든 bean이 되는 것이 아니라, view인 bean만), 없으면 jsp로 감
+	}
+	
+	@PostMapping("boardFile")
+	@ResponseBody
+	public String boardFile(MultipartFile boardFile) throws Exception {
+		// log.info("{}",boardFile.getOriginalFilename());
+		String result = noticeService.boardFile(boardFile);
+		log.info("{}", result);
+		return result;
+	}
+	
+	@PostMapping("boardFileDelete")
+	@ResponseBody
+	public boolean boardFileDelete(String fileName) throws Exception {
+		boolean result = noticeService.boardFileDelete(fileName);
+		return result;
 	}
 
 }
