@@ -104,5 +104,12 @@ public class NoticeController {
 		int result = noticeService.fileDelete(boardFileVO);
 		return result;
 	}
+	
+	@GetMapping("fileDown")
+	public String fileDown(BoardFileVO boardFileVO, Model model) throws Exception {
+		boardFileVO = noticeService.fileDetail(boardFileVO); // 객체 재사용(파라미터로 온 것에다가 넣음)
+		model.addAttribute("file", boardFileVO);
+		return "fileDownView"; // custom view 가 제일 먼저임(jsp보다 먼저) - bean의 이름을 먼저 찾아봄(모든 bean이 되는 것이 아니라, view인 bean만), 없으면 jsp로 감
+	}
 
 }

@@ -22,6 +22,7 @@
 					<p>[첨부파일]</p>
 					<c:forEach items="${ notice.boardFileVO }" var="file">
 						<a href="/files/${ board }/${ file.saveName }">${ file.oriName }</a> : ${ file.saveName }
+						<a href="./fileDown?fileNum=${ file.fileNum }">Download</a>
 						<br>
 					</c:forEach>
 	                <div>

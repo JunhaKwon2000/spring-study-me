@@ -114,5 +114,10 @@ public class NoticeService implements BoardService {
 		
 		return dbDeleteResult;
 	}
+
+	@Override
+	public BoardFileVO fileDetail(BoardFileVO boardFileVO) throws Exception {
+		return noticeDAO.fileDetail(boardFileVO);
+	}
 	
 }
