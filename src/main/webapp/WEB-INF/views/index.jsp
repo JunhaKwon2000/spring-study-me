@@ -7,21 +7,20 @@
 <title>Home</title>
 <%@ include file="/WEB-INF/views/include/head_css.jsp" %>
 </head>
-<body>
-	<div class="col-md-8 offset-md-2">
-		<h1 class="h3 mb-4 text-gray-800">Login Page</h1>
-		<form method="post" enctype="multipart/form-data">
-			<div class="mb-4">
-				<label for="username" class="form-label">Username</label> <input
-					type="text" class="form-control" id="username" name="username">
+<body id="page-top">
+	<div id="wrapper">
+		<%@ include file="/WEB-INF/views/include/sidebar.jsp" %>
+		<div id="content-wrapper" class="d-flex flex-column">
+			<div id="content">
+				<%@ include file="/WEB-INF/views/include/topbar.jsp" %>
+                <div class="container-fluid">
+	                <!-- 페이지 본문 -->
+	                <h1 class="h3 mb-4 text-gray-800">Hello World!</h1>
+                </div>
 			</div>
-			<div class="mb-4">
-				<label for="password" class="form-label">Password</label> <input
-					type="text" class="form-control" id="password" name="password">
-			</div>
-			<button type="submit" class="btn btn-primary">Login</button>
-		</form>
-		<a href="/member/join" class="btn btn-primary">Register</a>
+			<%@ include file="/WEB-INF/views/include/footer.jsp" %>
+		</div>
 	</div>
+	<%@ include file="/WEB-INF/views/include/tail.jsp" %>
 </body>
 </html>

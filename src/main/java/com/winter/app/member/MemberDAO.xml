@@ -1,13 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.winter.app.member.MemberDAO">
+
+	<resultMap type="MemberVO" id="loginResultMap">
+		<id column="USERNAME" property="username"/>
+		<result column="PASSWORD" property="password"/>
+		<result column="NAME" property="name"/>
+		<result column="EMAIL" property="email"/>
+		<result column="PHONE" property="phone"/>
+		<result column="BIRTH" property="birth"/>
+		<result column="ACCOUNT_NON_EXPIRED" property="accountNonExpired"/>
+		<result column="ACCOUNT_NON_LOCKED" property="accountNonLocked"/>
+		<result column="CREDENTIALS_NON_EXPIRED" property="credentialsNonExpired"/>
+		<result column="ENALBED" property="enabled"/>
+		<association property="profileVO" javaType="ProfileVO">
+			<result column="ORI_NAME" property="oriName"/>
+			<result column="SAVE_NAME" property="saveName"/>
+		</association>
+		<collection property="roleVO" javaType="java.util.List" ofType="RoleVO">
+			<result column="ROLE_NAME" property="roleName"/>
+			<result column="ROLE_NUM" property="roleNum"/>
+		</collection>
+	</resultMap>
 	
 	<insert id="join" parameterType="MemberVO">
-		INSERT INTO members VALUES (#{username}, #{password}, #{name}, #{email}, #{phone}, #{birth})
+		INSERT INTO members VALUES (#{username}, #{password}, #{name}, #{email}, #{phone}, #{birth}, 1, 1, 1, 1)
 	</insert>
 	
 	<insert id="insertProfile" parameterType="ProfileVO">
 		INSERT INTO profile VALUES (#{username}, #{saveName}, #{oriName})
 	</insert>
+	
+	<insert id="insertRole" parameterType="java.util.Map">
+		INSERT INTO member_role (USERNAME, ROLE_NUM) VALUES (#{username}, #{roleNum})
+	</insert>
+	
+	<select id="getMemberByUsername" parameterType="MemberVO">
+		SELECT * FROM members WHERE USERNAME = #{username}
+	</select>
+	
+	<select id="getMemberByPassword" parameterType="MemberVO" resultMap="loginResultMap">
+		SELECT * from members m
+		JOIN profile p ON m.USERNAME = p.USERNAME
+		JOIN member_role mr ON m.USERNAME = mr.USERNAME
+		JOIN role r ON mr.ROLE_NUM = r.ROLE_NUM
+		WHERE m.USERNAME = #{username} AND m.PASSWORD = #{password}
+	</select>
 	
 </mapper>

@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.winter.app.board.BoardDAO;
@@ -15,6 +16,7 @@ import com.winter.app.commons.FileManager;
 import com.winter.app.commons.Pager;
 
 @Service
+@Transactional // 롤백(에러 시)
 public class NoticeService implements BoardService {
 
 	@Autowired

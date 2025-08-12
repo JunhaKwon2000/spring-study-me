@@ -7,31 +7,34 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Rollback;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.winter.app.board.BoardVO;
 
 import lombok.extern.slf4j.Slf4j;
 
-@SpringBootTest
+@Transactional()
 @Slf4j
+@SpringBootTest
 class NoticeDAOTest {
 	
 	@Autowired
 	private NoticeDAO noticeDAO;
 
 	@Test
+	// @Rollback(false)
 	void insertTest() throws Exception {
-		for (int i = 0; i < 105; i++) {			
-			NoticeVO noticeVO = new NoticeVO();
-			noticeVO.setBoardTitle("title" + i);
-			noticeVO.setBoardContent("content" + i);
-			noticeVO.setBoardWriter("writer" + i);
-			int result = noticeDAO.insert(noticeVO);
-			if (i % 10 == 0) Thread.sleep(500);
-		}
+	
+		NoticeVO noticeVO = new NoticeVO();
+		noticeVO.setBoardTitle("titleDelete");
+		noticeVO.setBoardContent("content");
+		noticeVO.setBoardWriter("writer");
+		int result = noticeDAO.insert(noticeVO);
+
 		
 		// 단정문
-		// assertEquals(1, result);
+		assertEquals(1, result);
 	}
 	
 	@Test

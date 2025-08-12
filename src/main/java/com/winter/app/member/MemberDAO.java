@@ -1,12 +1,20 @@
 package com.winter.app.member;
 
+import java.util.Map;
+
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
 public interface MemberDAO {
 	
-	public int join(MemberVO memberVO) throws Exception;
+	int join(MemberVO memberVO) throws Exception;
 
-	public int insertProfile(ProfileVO profileVO);
+	int insertProfile(ProfileVO profileVO);
+	
+	int insertRole(Map<String, Object> map) throws Exception;
+
+	MemberVO getMemberByUsername(MemberVO memberVO);
+
+	MemberVO getMemberByPassword(MemberVO memberVO);
 
 }
