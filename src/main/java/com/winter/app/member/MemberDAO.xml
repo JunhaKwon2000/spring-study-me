@@ -23,6 +23,18 @@
 		</collection>
 	</resultMap>
 	
+	<resultMap type="ProductsVO" id="productResultMap">
+		<id column="PRODUCT_NUM" property="productNum"/>
+		<result column="PRODUCT_NAME" property="productName"/>
+		<result column="PRODUCT_CONTENT" property="productContent"/>
+		<result column="PRODUCT_DATE" property="productDate"/>
+		<result column="PRODUCT_RATE" property="productRate"/>
+		<result column="KIND_NUM" property="kindNum"/>
+		<association property="productsKindVO" javaType="ProductsKindVO">
+			<result column="KIND_NAME" property="kindName"/>
+		</association>
+	</resultMap>
+	
 	<insert id="join" parameterType="MemberVO">
 		INSERT INTO members VALUES (#{username}, #{password}, #{name}, #{email}, #{phone}, #{birth}, 1, 1, 1, 1)
 	</insert>
@@ -45,6 +57,14 @@
 		JOIN member_role mr ON m.USERNAME = mr.USERNAME
 		JOIN role r ON mr.ROLE_NUM = r.ROLE_NUM
 		WHERE m.USERNAME = #{username} AND m.PASSWORD = #{password}
+	</select>
+	
+	<insert id="cartAdd" parameterType="java.util.Map">
+		INSERT INTO cart VALUES (#{username}, #{productNum})
+	</insert>
+	
+	<select id="cartList" parameterType="String" resultMap="productResultMap">
+		SELECT * FROM products p JOIN products_kind pk ON p.kind_num = pk.kind_num WHERE PRODUCT_NUM IN (SELECT PRODUCT_NUM FROM cart WHERE USERNAME = #{username});
 	</select>
 	
 </mapper>

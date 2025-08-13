@@ -49,6 +49,8 @@ public class QnaService implements BoardService {
 		int result = qnaDAO.replyUpdate(parent);
 		result = qnaDAO.replyInsert(qnaVO);
 		
+		if (attaches == null) return result; // 글만 있을 경우
+		
 		for (MultipartFile file : attaches) {
 			if (file == null || file.isEmpty()) continue;
 			
@@ -69,6 +71,7 @@ public class QnaService implements BoardService {
 	@Override
 	public int add(BoardVO qnaVO, MultipartFile[] attaches) throws Exception {
 		int result = qnaDAO.insert(qnaVO);
+		result = qnaDAO.refUpdate(qnaVO);
 		
 		if (attaches == null) return result; // 글만 있을 경우
 		

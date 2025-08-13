@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.winter.app.commons.FileManager;
+import com.winter.app.products.ProductsVO;
 
 @Transactional(rollbackFor = Exception.class)
 @Service
@@ -58,6 +59,16 @@ public class MemberService {
 			result = memberDAO.getMemberByPassword(memberVO);
 		}
 		
+		return result;
+	}
+
+	public int cartAdd(Map<String, Object> map) {
+		int result = memberDAO.cartAdd(map);
+		return result;
+	}
+
+	public List<ProductsVO> cartList(String username) {
+		List<ProductsVO> result = memberDAO.cartList(username);
 		return result;
 	}
 

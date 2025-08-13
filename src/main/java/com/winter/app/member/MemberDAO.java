@@ -1,8 +1,11 @@
 package com.winter.app.member;
 
+import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
+
+import com.winter.app.products.ProductsVO;
 
 @Mapper
 public interface MemberDAO {
@@ -16,5 +19,9 @@ public interface MemberDAO {
 	MemberVO getMemberByUsername(MemberVO memberVO);
 
 	MemberVO getMemberByPassword(MemberVO memberVO);
+
+	int cartAdd(Map<String, Object> map);
+
+	List<ProductsVO> cartList(String username);
 
 }
