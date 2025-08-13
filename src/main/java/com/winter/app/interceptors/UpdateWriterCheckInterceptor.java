@@ -1,23 +1,15 @@
 package com.winter.app.interceptors;
 
-import java.util.Map;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.winter.app.board.BoardVO;
-import com.winter.app.board.notice.NoticeDAO;
 import com.winter.app.member.MemberVO;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 public class UpdateWriterCheckInterceptor implements HandlerInterceptor {
-	
-	@Autowired
-	private NoticeDAO noticeDAO;
-	
 	
 	@Override
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
@@ -39,7 +31,7 @@ public class UpdateWriterCheckInterceptor implements HandlerInterceptor {
 			}
 		}
 		
-		// HandlerInterceptor.super.postHandle(request, response, handler, modelAndView); // 
+		// HandlerInterceptor.super.postHandle(request, response, handler, modelAndView);
 	}
 	
 	
