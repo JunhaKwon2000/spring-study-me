@@ -27,9 +27,7 @@
 								value="${ notice.boardTitle }">
 						</div>
 						<div class="mb-4">
-							<label for="writer" class="form-label">Writer</label> <input
-								type="text" class="form-control" id="writer" name="boardWriter"
-								value="${ notice.boardWriter }">
+				        	<span>${ member.username }</span>
 						</div>
 						<div class="mb-4">
 							<label for="content">Comments</label>

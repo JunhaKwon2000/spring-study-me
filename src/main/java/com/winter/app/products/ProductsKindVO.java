@@ -1,14 +1,10 @@
 package com.winter.app.products;
 
-import java.util.List;
+import lombok.Getter;
+import lombok.Setter;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
+@Getter
+@Setter
 public class ProductsKindVO {
 	
 	private Long kindNum;
