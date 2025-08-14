@@ -38,6 +38,11 @@
 							</div>
 		                </c:forEach>
 	                </div>
+	                <form id="frm"><input type="hidden" id="delInp" name="productNum"></form>
+	                <div>
+	                	<button class="btn btn-danger delete">Delete</button>
+	                	<button class="btn btn-primary purchase">Purchase</button>
+	                </div>
                 </div>
 			</div>
 			<%@ include file="/WEB-INF/views/include/footer.jsp" %>

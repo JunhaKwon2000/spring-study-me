@@ -34,10 +34,11 @@
 	                		<input type="hidden" name="productNum" class="productNum" value=${ detail.productNum }>
 	                	</form>
 		                <div class="d-flex justify-content-between">
-			                <div><a class="btn btn-warning action" role="button" data-kind="u">Update Product</a></div>
-			                <div><a class="btn btn-danger action" role="button" data-kind="d">Delete Product</a></div>
+			                <div><button class="btn btn-warning action" data-kind="u">Update Product</button></div>
+			                <div><button class="btn btn-danger action" data-kind="d">Delete Product</button></div>
+			                <div><button class="btn btn-primary action" data-kind="c">Add to Cart</button></div>
+			                <div><button class="btn btn-primary action" data-kind="a">Purchase</button></div>			                	                			                
 			                <div><a href="./list" class="btn btn-primary" role="button">Product List</a></div>
-			                <div><button class="btn btn-primary action" data-kind="c">Add to Cart</button></div>	                			                
 		                </div>
 	                </div>
                 </div>

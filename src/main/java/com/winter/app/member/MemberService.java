@@ -72,4 +72,17 @@ public class MemberService {
 		return result;
 	}
 
+	@Transactional
+	public int cartDelete(Map<String, Object> map) {
+		int result = 0;
+		String[] arr = (String[])map.get("items");
+		for (String item : arr) {
+			Map<String, Object> temp = new HashMap<>();
+			temp.put("productNum", item);
+			temp.put("username", (String)map.get("username"));
+			result = memberDAO.cartDelete(temp);
+		}
+		return result;
+	}
+
 }

@@ -24,7 +24,7 @@ elements.forEach(el => {
 				method: 'POST',
 				body: params
 			})
-			.then(response => response.text())
+			.then(response => response.json())
 			.then(response => {
 				if (response) {
 					const cartAddChecker = window.confirm('Product added to cart. Stay on detail page?');
@@ -38,6 +38,13 @@ elements.forEach(el => {
 			.catch(e => {
 				window.alert('Cart add fail');
 			});
+		} else if (data === 'a') {
+			const purchase = window.confirm('Purchase this product?');
+			if (purchase) {
+				form.setAttribute('action', '/account/add');
+				form.setAttribute('method', 'post');
+				form.submit();				
+			}
 		}
 	})
 })

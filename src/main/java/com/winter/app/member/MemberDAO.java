@@ -24,4 +24,6 @@ public interface MemberDAO {
 
 	List<ProductsVO> cartList(String username);
 
+	int cartDelete(Map<String, Object> temp);
+
 }

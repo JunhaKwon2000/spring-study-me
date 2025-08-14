@@ -47,7 +47,7 @@ public class ProductsController {
 		ModelAndView mv = new ModelAndView();
 		mv.addObject("msg", msg);
 		mv.addObject("url", url);
-		mv.setViewName("commons/result");
+		mv.setViewName("common/result");
 		return mv;
 		
 		

@@ -83,4 +83,24 @@ public class MemberController {
 		return "/member/cartList";
 	}
 	
+	@PostMapping("cartDelete")
+	public String cartDelete(HttpSession session, String productNum, Model model) {
+		String[] arr = productNum.split(",");
+		MemberVO memberVO = (MemberVO)session.getAttribute("member");
+		Map<String, Object> map = new HashMap<>();
+		map.put("username", memberVO.getUsername());
+		map.put("items", arr);
+		int result = memberService.cartDelete(map);
+		
+		
+		String msg = "Delete Fail";
+		String url = "/member/cartList";
+		if (result > 0) {
+			msg = "Delete Complete";
+		}
+		model.addAttribute("msg", msg);
+		model.addAttribute("url", url);
+		return "common/result";
+	}
+	
 }

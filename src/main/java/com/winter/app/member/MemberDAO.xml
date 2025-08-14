@@ -67,4 +67,18 @@
 		SELECT * FROM products p JOIN products_kind pk ON p.kind_num = pk.kind_num WHERE PRODUCT_NUM IN (SELECT PRODUCT_NUM FROM cart WHERE USERNAME = #{username});
 	</select>
 	
+	<delete id="cartDelete" parameterType="java.util.Map">
+		DELETE FROM cart WHERE USERNAME = #{username} AND PRODUCT_NUM = #{productNum}
+	</delete>
+	
+	<delete id="cartDeleteAnother" parameterType="java.util.List">
+		DELETE FROM cart 
+		<where>
+			PRODUCT_NUM IN
+			<foreach collection="list" item="item" open="(" close=")" separator=",">
+				#{item}
+			</foreach>
+		</where>
+	</delete>
+	
 </mapper>
