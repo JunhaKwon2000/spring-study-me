@@ -79,7 +79,9 @@ public class QnaController {
 	}
 	
 	@PostMapping("reply")
-	public String replyForm(QnaVO qnaVO, MultipartFile[] attaches, Model model) throws Exception {
+	public String replyForm(QnaVO qnaVO, HttpSession session, MultipartFile[] attaches, Model model) throws Exception {
+		MemberVO memberVO = (MemberVO)session.getAttribute("member");
+		qnaVO.setBoardWriter(memberVO.getUsername());
 		int result = qnaService.reply(qnaVO, attaches);
 		String msg = "Reply Fail";
 		String url = "./list";

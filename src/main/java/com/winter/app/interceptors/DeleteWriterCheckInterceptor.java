@@ -34,12 +34,14 @@ public class DeleteWriterCheckInterceptor implements HandlerInterceptor {
 		if (memberVO != null && boardVO != null) {
 			String loginUsername = memberVO.getUsername();
 			String writer = boardVO.getBoardWriter();
-			if (loginUsername.equals(writer)) flag = true;
+			if (loginUsername.equals(writer)) {
+				flag = true;
+			}
 			else {
 				request.setAttribute("msg", "Only writer can delete");
 				request.setAttribute("url", "/notice/list");
 				request.getRequestDispatcher("/WEB-INF/views/common/result.jsp").forward(request, response);
-				return false;
+				return flag;
 			}
 		} 
 
