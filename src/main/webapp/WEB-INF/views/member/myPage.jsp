@@ -15,26 +15,26 @@
 				<%@ include file="/WEB-INF/views/include/topbar.jsp" %>
                 <div class="container-fluid">
 	                <!-- 페이지 본문 -->
-	                <h1 class="h3 mb-4 text-gray-800">Welcome ${ member.name }</h1>
-	                <img alt="profile-image" src="/files/member/${ member.profileVO.saveName }">
+	                <h1 class="h3 mb-4 text-gray-800">Welcome ${ detail.name }</h1>
+	                <img alt="profile-image" src="/files/member/${ detail.profileVO.saveName }">
 	                <br>
 	                <p>[Username]</p>
-	                <p>${ member.username }</p>
+	                <p>${ detail.username }</p>
 	                <br>
 	                <p>[Name]</p>
-	                <p>${ member.name }</p>
+	                <p>${ detail.name }</p>
 	                <br>
    	                <p>[Birthday]</p>
-	                <p>${ member.birth }</p>
+	                <p>${ detail.birth }</p>
 	                <br>
 	                <p>[Email]</p>
-	                <p>${ member.email }</p>
+	                <p>${ detail.email }</p>
 	                <br>
             	    <p>[Phone]</p>
-	                <p>${ member.phone }</p>
+	                <p>${ detail.phone }</p>
 	                <br>
 	                <p>[Role]</p>
-	                <c:forEach items="${ member.roleVO }" var="role">
+	                <c:forEach items="${ detail.roleVO }" var="role">
 	                	<p>${ role.roleName }</p>
 	                </c:forEach>
                 </div>

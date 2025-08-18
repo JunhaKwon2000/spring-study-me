@@ -10,26 +10,8 @@
 </head>
 <body>
 	<div class="col-md-8 offset-md-2">
-		<h1 class="h3 mb-4 text-gray-800">Register Page</h1>
+		<h1 class="h3 mb-4 text-gray-800">Update Page</h1>
 		<form:form method="post" enctype="multipart/form-data"  modelAttribute="memberVO">
-			<div class="mb-4">
-				<label for="username" class="form-label">Username</label>
-				<form:input path="username" cssClass="form-control"/> 
-				<!-- <input type="text" class="form-control" id="username" name="username"> -->
-				<form:errors path="username"></form:errors>
-			</div>
-			<div class="mb-4">
-				<label for="password" class="form-label">Password</label>
-				<form:password path="password" cssClass="form-control"/>
-				<!-- <input type="password" class="form-control" id="password" name="password"> -->
-				<form:errors path="password"></form:errors>
-			</div>
-			<div class="mb-4">
-				<label for="passwordCheck" class="form-label">Password Check</label>
-				<form:password path="passwordCheck" cssClass="form-control"/>
-				<!-- <input type="password" class="form-control" id="password" name="password"> -->
-				<form:errors path="passwordCheck"></form:errors>
-			</div>
 			<div class="mb-4">
 				<label for="name" class="form-label">Name</label>
 				<form:input path="name" cssClass="form-control"/>
@@ -44,12 +26,13 @@
 			</div>
 			<div class="mb-4">
 				<label for="phone" class="form-label">Phone</label>
-				<input type="text" class="form-control" id="phone" name="phone">
+				<form:input path="phone" cssClass="form-control"/>
+				<!-- <input type="text" class="form-control" id="phone" name="phone"> -->
 				<form:errors path="phone"></form:errors>
 			</div>
 			<div class="mb-4">
 				<label for="birth" class="form-label">Birth</label>
-				<input type="date" class="form-control" id="birth" name="birth">
+				<input type="date" class="form-control" id="birth" name="birth" value="${ memberVO.birth }">
 				<form:errors path="birth"></form:errors>
 			</div>
 			<div class="mb-4">
@@ -57,7 +40,7 @@
 				<br>
 				<input type="file" id="profile" name="profile">
 			</div>
-			<button type="submit" class="btn btn-primary">Register</button>
+			<button type="submit" class="btn btn-primary">Update</button>
 		</form:form>
 	</div>
 </body>

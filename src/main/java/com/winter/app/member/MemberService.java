@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.winter.app.commons.FileManager;
@@ -82,6 +83,41 @@ public class MemberService {
 			temp.put("username", (String)map.get("username"));
 			result = memberDAO.cartDelete(temp);
 		}
+		return result;
+	}
+	
+	// 검증 메서드
+	public boolean hasMemberError(MemberVO memberVO, BindingResult bindingResult) throws Exception {
+		boolean flag = false;
+		// flag = true 는 검증 실패(둘이 다름)
+		// flag = false 는 검증 성공(둘이 같음)
+		
+		// 1. 어노테이션으로 검증
+		flag = bindingResult.hasErrors();
+		
+		// 2. 사용자 정의로 검증(비밀번호 일치)
+		if (!memberVO.getPassword().equals(memberVO.getPasswordCheck())) {
+			bindingResult.rejectValue("passwordCheck", "member.password.check");
+			flag = true;
+		}
+		
+		// 3. ID 중복 검사
+		MemberVO duplicate = memberDAO.getMemberByUsername(memberVO);
+		if (duplicate != null) {
+			bindingResult.rejectValue("username", "member.username.check");
+			flag = true;
+		}
+		
+		return flag;
+	}
+
+	public int update(MemberVO memberVO) {
+		int result = memberDAO.update(memberVO);
+		return result;
+	}
+
+	public MemberVO detail(MemberVO memberVO) {
+		MemberVO result = memberDAO.getMemberByPassword(memberVO);
 		return result;
 	}
 

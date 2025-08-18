@@ -3,6 +3,15 @@ package com.winter.app.member;
 import java.time.LocalDate;
 import java.util.List;
 
+import com.winter.app.member.validation.AddGroup;
+import com.winter.app.member.validation.UpdateGroup;
+
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Past;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -12,11 +21,20 @@ import lombok.ToString;
 @ToString
 public class MemberVO {
 	
+	@NotBlank(message = "username is required", groups = {AddGroup.class})
 	private String username;
+	@Size(min = 6, max = 12, groups = {AddGroup.class})
 	private String password;
+	private String passwordCheck;
+	@NotBlank(groups = {AddGroup.class, UpdateGroup.class})
 	private String name;
+	@NotBlank(groups = {AddGroup.class, UpdateGroup.class})
+	@Email(groups = {AddGroup.class, UpdateGroup.class})
 	private String email;
+	// @Pattern(regexp = "/^0\\d{1,2}-\\d{3,4}-\\d{4}$/", message = "Phone number must be in 000-0000-0000")
 	private String phone;
+	@NotNull(groups = {AddGroup.class, UpdateGroup.class})
+	@Past(groups = {AddGroup.class, UpdateGroup.class})
 	private LocalDate birth;
 	private Long accountNonExpired;
 	private Long accountNonLocked;

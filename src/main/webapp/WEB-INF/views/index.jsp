@@ -20,7 +20,6 @@
 	                <h3>
 	                	<spring:message code="welcome.message2" text="Welcome" />
 	                </h3>
-	                
 	                <c:if test="${ not empty member }">
 	                	<h3>Welcome, ${ member.name }</h3>
 	                	<h3>
