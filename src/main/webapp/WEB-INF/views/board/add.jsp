@@ -1,7 +1,7 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core"%>
 <%@ taglib prefix="fn" uri="jakarta.tags.functions" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -19,12 +19,14 @@
 				<div class="container-fluid">
 					<!-- 페이지 본문 -->
 					<h1 class="h3 mb-4 text-gray-800">Write Page</h1>
-					<form method="post" enctype="multipart/form-data">
-						<input type="hidden" name="boardNum" value=${ notice.boardNum }>
+					<form:form method="post" enctype="multipart/form-data" modelAttribute="boardVO">
+						<form:hidden path="boardNum"/>
+						<%-- <input type="hidden" name="boardNum" value=${ notice.boardNum }> --%>
 						<div class="mb-4">
-							<label for="title" class="form-label">Title</label> <input
-								type="text" class="form-control" id="title" name="boardTitle"
-								value="${ notice.boardTitle }">
+							<label for="boardTitle" class="form-label">Title</label>
+							<form:input path="boardTitle" cssClass="form-control"/>
+							<form:errors path="boardTitle"></form:errors>
+							<%-- <input type="text" class="form-control" id="title" name="boardTitle" value="${ notice.boardTitle }"> --%>
 						</div>
 						<div class="mb-4">
 				        	<span>${ member.username }</span>
@@ -49,7 +51,7 @@
 							<!-- File Plus -->
 						</div>
 						<button type="submit" class="btn btn-primary">Submit</button>
-					</form>
+					</form:form>
 				</div>
 			</div>
 			<%@ include file="/WEB-INF/views/include/footer.jsp"%>

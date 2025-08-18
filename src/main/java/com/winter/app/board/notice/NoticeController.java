@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,6 +21,7 @@ import com.winter.app.commons.Pager;
 import com.winter.app.member.MemberVO;
 
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 
 @Controller
@@ -38,13 +40,23 @@ public class NoticeController {
 		return name;
 	}
 	
+	// 매개변수는 오로지 유효성 검사 로직을 위해서
 	@GetMapping("add")
-	public String add() throws Exception {
+	public String add(@ModelAttribute("boardVO") BoardVO noticeVO, Model model) throws Exception {
+		// model.addAttribute("boardVO", new NoticeVO());
 		return "board/add";
 	}
 	
+	// 순서 중요!! @Valid가 있는 noticeVO 바로 다음에 BindingResult가 와야함!!!
 	@PostMapping("add")
-	public String insert(@ModelAttribute NoticeVO noticeVO, HttpSession session, MultipartFile[] attaches) throws Exception {
+	public String insert(@ModelAttribute @Valid BoardVO noticeVO, BindingResult bindingResult, HttpSession session, MultipartFile[] attaches, Model model) throws Exception {
+		
+		if (bindingResult.hasErrors()) {
+			model.addAttribute("msg", "Title cant be empty");
+			model.addAttribute("url", "./add");
+			return "common/result";
+		}
+		
 		MemberVO memberVO = (MemberVO)session.getAttribute("member");
 		noticeVO.setBoardWriter(memberVO.getUsername());
 		int result = noticeService.add(noticeVO, attaches);

@@ -81,4 +81,9 @@
 		</where>
 	</delete>
 	
+	<update id="update">
+		UPDATE members SET NAME = #{name} ,PHONE = #{phone} ,BIRTH = #{birth} ,EMAIL = #{email}
+		WHERE USERNAME = #{username}
+	</update>
+	
 </mapper>

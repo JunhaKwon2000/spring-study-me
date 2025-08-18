@@ -26,4 +26,6 @@ public interface MemberDAO {
 
 	int cartDelete(Map<String, Object> temp);
 
+	int update(MemberVO memberVO);
+
 }

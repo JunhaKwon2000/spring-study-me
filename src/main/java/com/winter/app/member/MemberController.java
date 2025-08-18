@@ -7,15 +7,20 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.winter.app.member.validation.AddGroup;
+import com.winter.app.member.validation.UpdateGroup;
 import com.winter.app.products.ProductsVO;
 
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 
 @Controller
 @RequestMapping(value="/member/*")
@@ -25,12 +30,20 @@ public class MemberController {
 	private MemberService memberService;
 	
 	@GetMapping("join")
-	public String join() throws Exception {
+	public String join(Model model) throws Exception {
+		model.addAttribute("memberVO", new MemberVO());
 		return "member/join";
 	}
 	
 	@PostMapping("join")
-	public String join(MemberVO memberVO, MultipartFile profile) throws Exception {
+	public String join(@Validated({AddGroup.class}) MemberVO memberVO, BindingResult bindingResult, MultipartFile profile) throws Exception {
+		
+		boolean flag = memberService.hasMemberError(memberVO, bindingResult);
+		
+		if (flag) {
+			return "member/join";
+		}
+		
 		int result = memberService.join(memberVO, profile);
 		return "redirect:/";
 	}
@@ -57,7 +70,10 @@ public class MemberController {
 	}
 	
 	@GetMapping("detail")
-	public String myPage() throws Exception {
+	public String myPage(HttpSession session, Model model) throws Exception {
+		MemberVO memberVO = (MemberVO)session.getAttribute("member");
+		MemberVO result = memberService.detail(memberVO);
+		model.addAttribute("detail", result);
 		return "/member/myPage";
 	}
 	
@@ -97,6 +113,31 @@ public class MemberController {
 		String url = "/member/cartList";
 		if (result > 0) {
 			msg = "Delete Complete";
+		}
+		model.addAttribute("msg", msg);
+		model.addAttribute("url", url);
+		return "common/result";
+	}
+	
+	@GetMapping("update")
+	public String update(HttpSession session, Model model) {
+		MemberVO memberVO = (MemberVO) session.getAttribute("member");
+		model.addAttribute("memberVO", memberVO);
+		return "/member/memberUpdate";
+	}
+	
+	@PostMapping("update")
+	public String update(@Validated(UpdateGroup.class) MemberVO memberVO, BindingResult bindingResult, HttpSession session, Model model, MultipartFile profile) throws Exception {
+		if (bindingResult.hasErrors()) return "/member/memberUpdate";
+		
+		MemberVO tempVO = (MemberVO) session.getAttribute("member");
+		memberVO.setUsername(tempVO.getUsername());
+		
+		int result = memberService.update(memberVO);
+		String msg = "Update Fail";
+		String url = "/member/detail";
+		if (result > 0) {
+			msg = "Update Complete";
 		}
 		model.addAttribute("msg", msg);
 		model.addAttribute("url", url);
