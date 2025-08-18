@@ -21,7 +21,7 @@ public class MessageConfig implements WebMvcConfigurer {
 		
 		// 1. 만약 session을 이용하고 싶을 경우
 		SessionLocaleResolver resolver = new SessionLocaleResolver();
-		resolver.setDefaultLocale(Locale.KOREAN);
+		resolver.setDefaultLocale(Locale.KOREAN); // 여기서 Locale.KOREAN으로 설정했기 때문에 서버를 처음 시작하면 자동으로 _ko를 찾아서 언어 설정을 해줌
 
 		// 2. 만약 쿠키를 이용하고 싶을 경우
 		CookieLocaleResolver resolver2 = new CookieLocaleResolver("lang");
