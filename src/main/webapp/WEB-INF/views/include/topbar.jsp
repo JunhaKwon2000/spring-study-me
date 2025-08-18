@@ -206,6 +206,10 @@
 	    <a class="btn btn-primary" href="/member/login">Login</a>
 	    <a class="btn btn-primary" href="/member/join">Register</a>
     </c:if>
+    <ul>
+    	<li><a href="/?lang=ko">KOR</a></li>
+    	<li><a href="/?lang=en">ENG</a></li>
+    </ul>
 
 </nav>
 <!-- End of Topbar -->
