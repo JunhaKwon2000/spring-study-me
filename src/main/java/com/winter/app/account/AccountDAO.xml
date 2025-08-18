@@ -2,8 +2,34 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.winter.app.account.AccountDAO">
 
+	<resultMap type="AccountVO" id="accountResultMap">
+		<id column="ACCOUNT_NUM" property="accountNum"/>
+		<result column="ACCOUNT_TITLE" property="boardTitle"/>
+		<result column="USERNAME" property="username"/>
+		<result column="PRODUCT_NUM" property="productNum"/>
+		<result column="ACCOUNT_DATE" property="accountDate"/>
+		<result column="ACCOUNT_BALANCE" property="accountBalance"/>
+		<association property="productsKindVO" javaType="ProductsKindVO">
+			<result column="KIND_NAME" property="kindName"/>
+		</association>
+		<association property="productsVO" javaType="ProductsVO">
+			<result column="PRODUCT_NAME" property="productName"/>
+			<result column="PRODUCT_CONTENT" property="productContent"/>
+			<result column="PRODUCT_DATE" property="productDate"/>
+			<result column="PRODUCT_RATE" property="productRate"/>
+			<result column="KIND_NUM" property="kindNum"/>
+		</association>
+	</resultMap>
+
 	<insert id="add" parameterType="java.util.Map">
 		INSERT INTO account VALUES(#{accountNum}, #{username}, #{productNum}, now(), 1000)
 	</insert>
+	
+	<select id="getAccount" parameterType="String" resultMap="accountResultMap">
+		SELECT * 
+		FROM account a JOIN products p ON a.PRODUCT_NUM = p.PRODUCT_NUM
+		JOIN products_kind pk ON p.KIND_NUM = pk.KIND_NUM
+		WHERE a.USERNAME = #{username}
+	</select>
 	
 </mapper>

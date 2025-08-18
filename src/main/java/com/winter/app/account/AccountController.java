@@ -1,11 +1,13 @@
 package com.winter.app.account;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -39,6 +41,14 @@ public class AccountController {
 		model.addAttribute("msg", msg);
 		model.addAttribute("url", url);
 		return "common/result";
-	} 
+	}
+	
+	@GetMapping("list")
+	public String account(HttpSession session, Model model) {
+		MemberVO memberVO = (MemberVO)session.getAttribute("member");
+		List<AccountVO> result = accountService.getAccount(memberVO.getUsername());
+		model.addAttribute("list", result);
+		return "/account/list";
+	}
 	
 }

@@ -2,6 +2,7 @@ package com.winter.app.account;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,6 +44,11 @@ public class AccountService {
 			}
 		}
 		
+		return result;
+	}
+
+	public List<AccountVO> getAccount(String username) {
+		List<AccountVO> result = accountDAO.getAccount(username);
 		return result;
 	}
 

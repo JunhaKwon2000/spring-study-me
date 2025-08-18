@@ -27,9 +27,9 @@ elements.forEach(el => {
 			.then(response => response.json())
 			.then(response => {
 				if (response) {
-					const cartAddChecker = window.confirm('Product added to cart. Stay on detail page?');
-					if (!cartAddChecker) {
-						location.href = "/products/list";
+					const cartAddChecker = window.confirm('Product added to cart. Move to cart page?');
+					if (cartAddChecker) {
+						location.href = "/member/cartList";
 					}
 				} else {
 					window.alert('Cart add fail');
