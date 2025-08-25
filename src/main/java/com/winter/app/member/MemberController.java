@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -53,15 +55,12 @@ public class MemberController {
 		return "member/login";
 	}
 	
-	@PostMapping("login")
-	public String login(MemberVO memberVO, HttpSession session) throws Exception {
-		MemberVO result = memberService.login(memberVO);
-		if (result != null) {
-			session.setAttribute("member", result);
-			session.setMaxInactiveInterval(60 * 30);
-		}
-		return "redirect:/";
-	}
+	/*
+	 * @PostMapping("login") public String login(MemberVO memberVO, HttpSession
+	 * session) throws Exception { MemberVO result = memberService.login(memberVO);
+	 * if (result != null) { session.setAttribute("member", result);
+	 * session.setMaxInactiveInterval(60 * 30); } return "redirect:/"; }
+	 */
 	
 	@GetMapping("logout")
 	public String logout(HttpSession session) throws Exception {
@@ -71,10 +70,11 @@ public class MemberController {
 	
 	@GetMapping("detail")
 	public String myPage(HttpSession session, Model model) throws Exception {
-		MemberVO memberVO = (MemberVO)session.getAttribute("member");
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		MemberVO memberVO = (MemberVO)auth.getPrincipal();
 		MemberVO result = memberService.detail(memberVO);
 		model.addAttribute("detail", result);
-		return "/member/myPage";
+		return "member/myPage";
 	}
 	
 	@PostMapping("cartAdd")
@@ -96,7 +96,7 @@ public class MemberController {
 		model.addAttribute("list", result);
 		
 		// 나중에 페이징 처리도 해야함(게시판 형식으로 했으면)
-		return "/member/cartList";
+		return "member/cartList";
 	}
 	
 	@PostMapping("cartDelete")
@@ -121,16 +121,18 @@ public class MemberController {
 	
 	@GetMapping("update")
 	public String update(HttpSession session, Model model) {
-		MemberVO memberVO = (MemberVO) session.getAttribute("member");
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		MemberVO memberVO = (MemberVO)auth.getPrincipal();
 		model.addAttribute("memberVO", memberVO);
-		return "/member/memberUpdate";
+		return "member/memberUpdate";
 	}
 	
 	@PostMapping("update")
 	public String update(@Validated(UpdateGroup.class) MemberVO memberVO, BindingResult bindingResult, HttpSession session, Model model, MultipartFile profile) throws Exception {
 		if (bindingResult.hasErrors()) return "/member/memberUpdate";
 		
-		MemberVO tempVO = (MemberVO) session.getAttribute("member");
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		MemberVO tempVO = (MemberVO)auth.getPrincipal();
 		memberVO.setUsername(tempVO.getUsername());
 		
 		int result = memberService.update(memberVO);

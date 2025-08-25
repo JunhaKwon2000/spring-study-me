@@ -22,16 +22,16 @@ public class FilterConfig implements WebMvcConfigurer {
 //		return registrationBean; // Filter를 적용할 URL 패턴을 지정합니다.
 //	}
 	
-	@Bean
-	FilterRegistrationBean<Filter> adminCheckFilterBean() {
-		FilterRegistrationBean<Filter> registrationBean = new FilterRegistrationBean<>();
-		
-		registrationBean.setFilter(new AdminCheckFilter());
-		registrationBean.addUrlPatterns("/notice/add", "/notice/update", "/notice/delete");
-		registrationBean.setOrder(0);
-		
-		return registrationBean;
-	}
+//	@Bean
+//	FilterRegistrationBean<Filter> adminCheckFilterBean() {
+//		FilterRegistrationBean<Filter> registrationBean = new FilterRegistrationBean<>();
+//		
+//		registrationBean.setFilter(new AdminCheckFilter());
+//		registrationBean.addUrlPatterns("/notice/add", "/notice/update", "/notice/delete");
+//		registrationBean.setOrder(0);
+//		
+//		return registrationBean;
+//	}
 	
 	
 }

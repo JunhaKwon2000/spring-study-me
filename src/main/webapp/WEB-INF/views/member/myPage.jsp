@@ -15,6 +15,8 @@
 				<%@ include file="/WEB-INF/views/include/topbar.jsp" %>
                 <div class="container-fluid">
 	                <!-- 페이지 본문 -->
+	                <sec:authorize access="isAuthenticated()">
+	                <sec:authentication property="principal" var="detail"/>
 	                <h1 class="h3 mb-4 text-gray-800">Welcome ${ detail.name }</h1>
 	                <img alt="profile-image" src="/files/member/${ detail.profileVO.saveName }">
 	                <br>
@@ -37,6 +39,7 @@
 	                <c:forEach items="${ detail.roleVO }" var="role">
 	                	<p>${ role.roleName }</p>
 	                </c:forEach>
+	                </sec:authorize>
                 </div>
 			</div>
 			<%@ include file="/WEB-INF/views/include/footer.jsp" %>

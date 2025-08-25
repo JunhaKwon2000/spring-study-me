@@ -56,7 +56,7 @@
 		JOIN profile p ON m.USERNAME = p.USERNAME
 		JOIN member_role mr ON m.USERNAME = mr.USERNAME
 		JOIN role r ON mr.ROLE_NUM = r.ROLE_NUM
-		WHERE m.USERNAME = #{username} AND m.PASSWORD = #{password}
+		WHERE m.USERNAME = #{username}
 	</select>
 	
 	<insert id="cartAdd" parameterType="java.util.Map">
@@ -84,6 +84,10 @@
 	<update id="update">
 		UPDATE members SET NAME = #{name} ,PHONE = #{phone} ,BIRTH = #{birth} ,EMAIL = #{email}
 		WHERE USERNAME = #{username}
+	</update>
+	
+	<update id="pwUp" parameterType="MemberVO">
+		UPDATE members SET password = #{password} WHERE username = #{username}
 	</update>
 	
 </mapper>

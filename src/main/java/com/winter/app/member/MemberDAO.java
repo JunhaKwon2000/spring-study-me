@@ -18,7 +18,7 @@ public interface MemberDAO {
 
 	MemberVO getMemberByUsername(MemberVO memberVO);
 
-	MemberVO getMemberByPassword(MemberVO memberVO);
+	MemberVO getMemberByPassword(MemberVO memberVO) throws Exception;
 
 	int cartAdd(Map<String, Object> map);
 
@@ -27,5 +27,7 @@ public interface MemberDAO {
 	int cartDelete(Map<String, Object> temp);
 
 	int update(MemberVO memberVO);
+	
+	int pwUp(MemberVO memberVO);
 
 }
