@@ -9,13 +9,4 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 @EnableWebSecurity
 public class SpringSecurityConfig {
 	
-	// exclude static resources from security(css, js, etc)
-	// default
-	@Bean
-	WebSecurityCustomizer webSecurityCustomizer() {
-		() -> {
-			
-		}
-	}
-	
 }
