@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -107,6 +108,7 @@ public class NoticeController {
 		return "board/detail";
 	}
 	
+	// @CrossOrigin // 다른 서버에서 이 요청에 접근하는 것을 허용함
 	@GetMapping("list")
 	public String list(Pager pager, Model model) throws Exception {
 		List<BoardVO> result = noticeService.noticeList(pager);

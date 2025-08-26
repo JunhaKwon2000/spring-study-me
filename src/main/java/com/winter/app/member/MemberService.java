@@ -133,7 +133,6 @@ public class MemberService implements UserDetailsService {
 	}
 
 	/* -------------------스프링 시큐리티--------------------- */
-	
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		MemberVO memberVO = new MemberVO();
@@ -148,5 +147,6 @@ public class MemberService implements UserDetailsService {
 		}
 		return null;
 	}
+	/* -------------------스프링 시큐리티--------------------- */
 
 }

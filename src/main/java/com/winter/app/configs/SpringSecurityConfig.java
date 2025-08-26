@@ -1,5 +1,6 @@
 package com.winter.app.configs;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -7,9 +8,26 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.web.SecurityFilterChain;
 
+import com.winter.app.member.MemberService;
+
 @Configuration
 @EnableWebSecurity
 public class SpringSecurityConfig {
+	
+	@Autowired
+	private LoginSuccessHandler loginSuccessHandler; // 가져오기
+	
+	@Autowired
+	private LoginFailHandler loginFailHandler;
+	
+	@Autowired
+	private AddLogoutHandler addLogoutHandler;
+	
+	@Autowired
+	private AddLogoutSuccessHandler addLogoutSuccessHandler;
+	
+	@Autowired
+	private MemberService memberService;
 	
 	// exclude static resources from security(css, js, etc)
 	// default
@@ -38,21 +56,50 @@ public class SpringSecurityConfig {
 					// 만약 로그인이 안된 경우 만약에 권한 같은 것을 물으면 바로 로그인 창으로 가짐, 그리고 만약 인증에 성공한 경우 원래 가려고 하던 곳으로 인도해줌
 			})
 			// form에 관련된 설정
+			// 개발자가 로그인 검증을 하지 않음 -> Spring Security Filter에서 로그인 검증 진행
 			.formLogin(form -> {
 				form
-					.loginPage("/member/login") // GET + POST 모두에게 적용됨
-					// .usernameParameter("username") // default가 username, 다를 경우 작성
-					// .passwordParameter("password") // defailt가 password, 다를 경우 작성
-					.defaultSuccessUrl("/")
-					.failureUrl("/member/login");
+					.loginPage("/member/login") // 로그인을 진행할 URL, GET + POST 모두에게 적용됨
+					// .usernameParameter("username") // default가 username, 다를 경우 직접 명시
+					// .passwordParameter("password") // defailt가 password, 다를 경우 직접 명시
+					// .defaultSuccessUrl("/") // 로그인 성공 시 이동할 URL(redirect)
+					// .successForwardUrl("URL") // forward 방식
+					//.failureUrl("/member/login"); // 로그인 실패 시 이동할 URL(redirect)
+					.successHandler(loginSuccessHandler) // 추가적인 작업을 하고 싶을 때 해줘야함
+					.failureHandler(loginFailHandler);
+					// defaultSyccessUrl 이랑 successHandler 둘 중 하나만 사용 가능(fail도 동일함)!
 			})
+			// logout에 관련된 설정
+			// 개발자가 로그아웃 처리를 하지 않음 -> Spring Security Filter에서 로그아웃 진행
 			.logout(logout -> {
 				logout
 					.logoutUrl("/member/logout") // logout을 담당하는 url
-					.invalidateHttpSession(true) // session 지우기
-					.deleteCookies("JSESSIONID")
-					.logoutSuccessUrl("/");
-			});
+					.addLogoutHandler(addLogoutHandler)
+					.logoutSuccessHandler(addLogoutSuccessHandler)
+					.invalidateHttpSession(true) // session 유지 시간을 0로 설정
+					.deleteCookies("JSESSIONID"); // 쿠키를 지우기
+					// .logoutSuccessUrl("/"); // 로그아웃 성공 시 이동할 URL
+			})
+			// remember me!
+			.rememberMe(remember -> {
+				remember
+					.rememberMeParameter("remember-me") // 기본이 remember-me
+					.tokenValiditySeconds(60) // remember할 시간
+					.key("remember-token-key") // 중요! - 암호화를 진행할 키!
+					.userDetailsService(memberService)
+					.authenticationSuccessHandler(loginSuccessHandler) // 자동 로그인 성공 시 실행할 핸들러
+					.useSecureCookie(false); // 보안된 쿠키를 사용할꺼임? 일단 안함 
+				// 로그아웃 시 리멤버미 쿠키는 삭제됨!!!
+			})
+			// 동시접속
+			.sessionManagement(sessionMangement -> {
+				sessionMangement
+				.invalidSessionUrl("/member/login")
+					.maximumSessions(1)
+					.maxSessionsPreventsLogin(true) // false 이면 다른 브라우저에서 로그인했을 때, 이전 사용자를 로그아웃 시킴, true이면 현재 사용자가 접속하여할 때 막음
+					.expiredUrl("/");
+			})
+			;
 		
 		return httpSecurity.build();
 	}
