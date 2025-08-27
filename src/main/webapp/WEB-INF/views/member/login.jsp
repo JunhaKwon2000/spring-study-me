@@ -31,6 +31,9 @@
 			<button type="submit" class="btn btn-primary">Login</button>
 			<a href="/member/join" class="btn btn-primary">Register</a>
 		</form>
+		<div>
+			<a href="/member/kakaoLogin" class="btn btn-secondary">카카오로 로그인</a>
+		</div>
 	</div>
 </body>
 </html>
