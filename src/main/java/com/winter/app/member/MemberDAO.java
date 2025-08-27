@@ -16,7 +16,7 @@ public interface MemberDAO {
 	
 	int insertRole(Map<String, Object> map) throws Exception;
 
-	MemberVO getMemberByUsername(MemberVO memberVO);
+	MemberVO getMemberByUsername(MemberVO memberVO) throws Exception;
 
 	MemberVO getMemberByPassword(MemberVO memberVO);
 

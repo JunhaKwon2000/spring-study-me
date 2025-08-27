@@ -6,6 +6,10 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
@@ -16,13 +20,16 @@ import com.winter.app.products.ProductsVO;
 
 @Transactional(rollbackFor = Exception.class)
 @Service
-public class MemberService {
+public class MemberService implements UserDetailsService {
 	
 	@Autowired
 	private MemberDAO memberDAO;
 	
 	@Autowired
 	private FileManager fileManager;
+	
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 	
 	@Value("${app.upload}")
 	private String upload;
@@ -31,6 +38,7 @@ public class MemberService {
 	private String board;
 	
 	public int join(MemberVO memberVO, MultipartFile profile) throws Exception {
+		memberVO.setPassword(passwordEncoder.encode(memberVO.getPassword()));
 		int result = memberDAO.join(memberVO);
 		
 		ProfileVO profileVO = new ProfileVO();
@@ -51,15 +59,6 @@ public class MemberService {
 		map.put("username", memberVO.getUsername());
 		map.put("roleNum", 3);
 		result = memberDAO.insertRole(map);
-		return result;
-	}
-
-	public MemberVO login(MemberVO memberVO) {
-		MemberVO result = memberDAO.getMemberByUsername(memberVO);
-		if (result != null) {
-			result = memberDAO.getMemberByPassword(memberVO);
-		}
-		
 		return result;
 	}
 
@@ -116,9 +115,25 @@ public class MemberService {
 		return result;
 	}
 
-	public MemberVO detail(MemberVO memberVO) {
-		MemberVO result = memberDAO.getMemberByPassword(memberVO);
+	public MemberVO detail(MemberVO memberVO) throws Exception {
+		MemberVO result = memberDAO.getMemberByUsername(memberVO);
 		return result;
 	}
+
+	/* === Spring Security === */
+	@Override
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+		MemberVO memberVO = new MemberVO();
+		memberVO.setUsername(username);
+		try {
+			memberVO = memberDAO.getMemberByUsername(memberVO);
+			return memberVO;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
+	/* === Spring Security === */
 
 }

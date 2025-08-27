@@ -1,7 +1,13 @@
 package com.winter.app.member;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import com.winter.app.member.validation.AddGroup;
 import com.winter.app.member.validation.UpdateGroup;
@@ -19,7 +25,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class MemberVO {
+public class MemberVO implements UserDetails {
 	
 	@NotBlank(message = "username is required", groups = {AddGroup.class})
 	private String username;
@@ -36,12 +42,23 @@ public class MemberVO {
 	@NotNull(groups = {AddGroup.class, UpdateGroup.class})
 	@Past(groups = {AddGroup.class, UpdateGroup.class})
 	private LocalDate birth;
+	/* === Spring Security === */
 	private Long accountNonExpired;
 	private Long accountNonLocked;
 	private Long credentialsNonExpired;
 	private Long enabled;
+	/* === Spring Security === */
 	
 	private ProfileVO profileVO;
 	private List<RoleVO> roleVO;
+	
+	/* === Spring Security === */	
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		List<GrantedAuthority> result = new ArrayList<>();
+		for (RoleVO role : roleVO) result.add(new SimpleGrantedAuthority(role.getRoleName()));
+		return result;
+	}
+	/* === Spring Security === */
 	
 }

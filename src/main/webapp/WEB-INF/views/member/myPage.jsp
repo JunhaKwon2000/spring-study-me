@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,6 +15,8 @@
 			<div id="content">
 				<%@ include file="/WEB-INF/views/include/topbar.jsp" %>
                 <div class="container-fluid">
+                	<sec:authorize access="isAuthenticated()">
+                	<sec:authentication property="principal" var="detail"/>
 	                <!-- 페이지 본문 -->
 	                <h1 class="h3 mb-4 text-gray-800">Welcome ${ detail.name }</h1>
 	                <img alt="profile-image" src="/files/member/${ detail.profileVO.saveName }">
@@ -37,6 +40,7 @@
 	                <c:forEach items="${ detail.roleVO }" var="role">
 	                	<p>${ role.roleName }</p>
 	                </c:forEach>
+	                </sec:authorize>
                 </div>
 			</div>
 			<%@ include file="/WEB-INF/views/include/footer.jsp" %>

@@ -47,16 +47,12 @@
 		INSERT INTO member_role (USERNAME, ROLE_NUM) VALUES (#{username}, #{roleNum})
 	</insert>
 	
-	<select id="getMemberByUsername" parameterType="MemberVO">
-		SELECT * FROM members WHERE USERNAME = #{username}
-	</select>
-	
-	<select id="getMemberByPassword" parameterType="MemberVO" resultMap="loginResultMap">
+	<select id="getMemberByUsername" parameterType="MemberVO" resultMap="loginResultMap">
 		SELECT * from members m
 		JOIN profile p ON m.USERNAME = p.USERNAME
 		JOIN member_role mr ON m.USERNAME = mr.USERNAME
 		JOIN role r ON mr.ROLE_NUM = r.ROLE_NUM
-		WHERE m.USERNAME = #{username} AND m.PASSWORD = #{password}
+		WHERE m.USERNAME = #{username}
 	</select>
 	
 	<insert id="cartAdd" parameterType="java.util.Map">
@@ -85,5 +81,7 @@
 		UPDATE members SET NAME = #{name} ,PHONE = #{phone} ,BIRTH = #{birth} ,EMAIL = #{email}
 		WHERE USERNAME = #{username}
 	</update>
+	
+	
 	
 </mapper>

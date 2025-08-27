@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -17,15 +18,13 @@
                 <div class="container-fluid">
 	                <!-- 페이지 본문 -->
 	                <h1 class="h3 mb-4 text-gray-800">Hello World!</h1>
-	                <h3>
-	                	<spring:message code="welcome.message2" text="Welcome" />
-	                </h3>
-	                <c:if test="${ not empty member }">
+					<sec:authorize access="isAuthenticated()">
+					<sec:authentication property="principal" var="member"/>
 	                	<h3>Welcome, ${ member.name }</h3>
 	                	<h3>
 	                		<spring:message code="user.info" arguments="${ member.username },${ member.email }" argumentSeparator="," />
 	                	</h3>
-	                </c:if>
+					</sec:authorize>
                 </div>
 			</div>
 			<%@ include file="/WEB-INF/views/include/footer.jsp" %>

@@ -13,11 +13,15 @@
 		<form method="post" action="/member/login">
 			<div class="mb-4">
 				<label for="username" class="form-label">Username</label> 
-				<input type="text" class="form-control" id="username" name="username" required="required">
+				<input type="text" class="form-control" id="username" name="username" required="required" value=${ cookie.rememberId.value }>
 			</div>
 			<div class="mb-4">
 				<label for="password" class="form-label">Password</label> 
 				<input type="text" class="form-control" id="password" name="password" required="required">
+			</div>
+			<div class="mb-4">				
+				<label for="rememberId" class="form-label">Remember My Id</label> 
+				<input type="checkbox" id="rememberId" name="rememberId" value="remember">
 			</div>
 			<button type="submit" class="btn btn-primary">Login</button>
 			<a href="/member/join" class="btn btn-primary">Register</a>

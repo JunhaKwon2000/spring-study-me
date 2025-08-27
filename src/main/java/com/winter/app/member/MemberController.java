@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -20,7 +21,6 @@ import com.winter.app.member.validation.UpdateGroup;
 import com.winter.app.products.ProductsVO;
 
 import jakarta.servlet.http.HttpSession;
-import jakarta.validation.Valid;
 
 @Controller
 @RequestMapping(value="/member/*")
@@ -53,28 +53,11 @@ public class MemberController {
 		return "member/login";
 	}
 	
-	@PostMapping("login")
-	public String login(MemberVO memberVO, HttpSession session) throws Exception {
-		MemberVO result = memberService.login(memberVO);
-		if (result != null) {
-			session.setAttribute("member", result);
-			session.setMaxInactiveInterval(60 * 30);
-		}
-		return "redirect:/";
-	}
-	
-	@GetMapping("logout")
-	public String logout(HttpSession session) throws Exception {
-		session.removeAttribute("member");
-		return "redirect:/";
-	}
-	
 	@GetMapping("detail")
-	public String myPage(HttpSession session, Model model) throws Exception {
-		MemberVO memberVO = (MemberVO)session.getAttribute("member");
+	public String myPage(@AuthenticationPrincipal MemberVO memberVO, Model model) throws Exception {
 		MemberVO result = memberService.detail(memberVO);
 		model.addAttribute("detail", result);
-		return "/member/myPage";
+		return "member/myPage";
 	}
 	
 	@PostMapping("cartAdd")
@@ -110,7 +93,7 @@ public class MemberController {
 		
 		
 		String msg = "Delete Fail";
-		String url = "/member/cartList";
+		String url = "member/cartList";
 		if (result > 0) {
 			msg = "Delete Complete";
 		}
@@ -123,7 +106,7 @@ public class MemberController {
 	public String update(HttpSession session, Model model) {
 		MemberVO memberVO = (MemberVO) session.getAttribute("member");
 		model.addAttribute("memberVO", memberVO);
-		return "/member/memberUpdate";
+		return "member/memberUpdate";
 	}
 	
 	@PostMapping("update")
@@ -135,7 +118,7 @@ public class MemberController {
 		
 		int result = memberService.update(memberVO);
 		String msg = "Update Fail";
-		String url = "/member/detail";
+		String url = "member/detail";
 		if (result > 0) {
 			msg = "Update Complete";
 		}
