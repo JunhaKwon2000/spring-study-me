@@ -27,24 +27,22 @@ public class HomeController {
 //		}
 		
 		// 여기는 그 Spring Security 그림을 참조해주세용
-		if (session.getAttribute("SPRING_SECURITY_CONTEXT") != null) {
-			// 1. Session 에서 가져오기
-			Object result = session.getAttribute("SPRING_SECURITY_CONTEXT");
-			// log.info("class name: {}",result.getClass().getName());	
-			SecurityContextImpl contextImpl = (SecurityContextImpl) result;
-			
-			// 2. 
-			Authentication authentication = contextImpl.getAuthentication();
-			// log.info("Auth: {}", authentication);
-			
-			/*
-			 * 좀 더 쉬운 방법!
-			 * ----------------------------------------------------------
-			 */
-			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-			MemberVO memberVO = (MemberVO)auth.getPrincipal();
-			
-		}
+//		if (session.getAttribute("SPRING_SECURITY_CONTEXT") != null) {
+//			// 1. Session 에서 가져오기
+//			Object result = session.getAttribute("SPRING_SECURITY_CONTEXT");
+//			// log.info("class name: {}",result.getClass().getName());	
+//			SecurityContextImpl contextImpl = (SecurityContextImpl) result;
+//			
+//			// 2. 
+//			Authentication authentication = contextImpl.getAuthentication();
+//			// log.info("Auth: {}", authentication);
+//			
+//			/*
+//			 * 좀 더 쉬운 방법!
+//			 * ----------------------------------------------------------
+//			 */
+//			
+//		}
 		return "index";
 	}
 	

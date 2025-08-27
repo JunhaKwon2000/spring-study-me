@@ -99,6 +99,14 @@ public class SpringSecurityConfig {
 					.maxSessionsPreventsLogin(true) // false 이면 다른 브라우저에서 로그인했을 때, 이전 사용자를 로그아웃 시킴, true이면 현재 사용자가 접속하여할 때 막음
 					.expiredUrl("/");
 			})
+			// 소셜
+			.oauth2Login(auth -> {
+				auth.
+				userInfoEndpoint(info -> {
+					info.
+					userService(memberService);
+				});
+			})
 			;
 		
 		return httpSecurity.build();

@@ -4,10 +4,12 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 
 import com.winter.app.member.validation.AddGroup;
 import com.winter.app.member.validation.UpdateGroup;
@@ -25,7 +27,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class MemberVO implements UserDetails {
+public class MemberVO implements UserDetails, OAuth2User {
 	
 	@NotBlank(message = "username is required", groups = {AddGroup.class})
 	private String username;
@@ -51,6 +53,11 @@ public class MemberVO implements UserDetails {
 	
 	private ProfileVO profileVO;
 	private List<RoleVO> roleVO;
+	/* ----------- 소셜 -------------------*/
+	private Map<String, Object> attributes;
+	private String accessToken;
+	private String sns;
+	/* ----------- 소셜 -------------------*/
 	
 	/* ---------스프링 시큐리티----------- */
 	@Override

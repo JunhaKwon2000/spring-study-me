@@ -148,9 +148,4 @@ public class MemberController {
 		return "common/result";
 	}
 	
-	@GetMapping("kakaoLogin")
-	public void kakaoLogin() {
-		
-	}
-	
 }

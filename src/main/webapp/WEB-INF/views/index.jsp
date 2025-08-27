@@ -24,6 +24,7 @@
 					<sec:authorize access="isAuthenticated()">
 						<sec:authentication property="principal" var="member"/>
 	                	<h3>Welcome, ${ member.name }</h3>
+	                	<h3>Welcome, ${ member.sns }</h3>
 	                	<h3>
 	                		<spring:message code="user.info" arguments="${ member.username },${ member.email }" argumentSeparator="," />
 	                	</h3>
