@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.reactive.function.client.WebClient;
 
 import com.winter.app.member.validation.AddGroup;
 import com.winter.app.member.validation.UpdateGroup;
@@ -24,13 +26,19 @@ import com.winter.app.products.ProductsVO;
 
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
+import reactor.core.publisher.Mono;
 
 @Controller
 @RequestMapping(value="/member/*")
+@Slf4j
 public class MemberController {
 	
 	@Autowired
 	private MemberService memberService;
+	
+	@Value("${spring.security.oauth2.client.registration.kakao.client-id}")
+	private String myKakaoRestApiKey;
 	
 	@GetMapping("join")
 	public String join(Model model) throws Exception {
@@ -146,6 +154,26 @@ public class MemberController {
 		model.addAttribute("msg", msg);
 		model.addAttribute("url", url);
 		return "common/result";
+	}
+	
+	@GetMapping("delete")
+	public String delete(@AuthenticationPrincipal MemberVO memberVO) throws Exception {
+		log.info("{}", memberVO);
+		if (memberVO.getSns() == null) {
+			// service로 보내서 DB에서 삭제
+		} else if (memberVO.getSns().equalsIgnoreCase("kakao")) {
+			// DB에서 소셜 사용자 삭제를 해주세요
+			WebClient webClient = WebClient.builder().baseUrl("https://kapi.kakao.com/v1").build();
+			
+			String header = "Bearer " + memberVO.getAccessToken();
+			
+			Mono<String> response = webClient.post().uri("/user/unlink").header("Authorization", header).retrieve().bodyToMono(String.class);
+			log.info("{}", response.block());
+			
+			// 이러면 연결해제만 된거지 로그아웃을 시켜줘야함 세션에 사용자 정보가 남아있기 때문
+			
+		}
+		return "redirect:./logout";
 	}
 	
 }

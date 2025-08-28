@@ -27,17 +27,27 @@ public class AddLogoutHandler implements LogoutHandler {
 	
 	@Value("${http://localhost/login/oauth2/code/kakao}")
 	private String mykakaoRedirectUriKey;
+	
+	@Value("${spring.security.oauth2.client.registration.kakao.client-secret}")
+	private String adminKey;
 
 	@Override
 	public void logout(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
 //		log.info("로그아웃 핸들러");
 //		log.info("{}", authentication);
-		if (authentication instanceof OAuth2AuthenticationToken) {
-			MemberVO memberVO = (MemberVO) authentication.getPrincipal();
-			if ("kakao".equalsIgnoreCase(memberVO.getSns())) {
-				// this.useKakao(memberVO);
-			}
+		
+		// 회원 탈퇴 후 로그아웃하려면 예외가 발생하니까 이거 처리하기
+		try {
+			if (authentication instanceof OAuth2AuthenticationToken) {
+				MemberVO memberVO = (MemberVO) authentication.getPrincipal();
+				if ("kakao".equalsIgnoreCase(memberVO.getSns())) {
+					this.useKakao(memberVO);
+				}
+			}			
+		} catch (Exception e) {
+			log.error(e.getMessage());
 		}
+		
 	}
 	
 	private void useKakao(MemberVO memberVO) {
@@ -49,16 +59,16 @@ public class AddLogoutHandler implements LogoutHandler {
 		
 		WebClient webClient = WebClient.create();
 		
-		Mono<String> response = webClient.post().uri("https://kapi.kakao.com/v1/user/logout").header("Authorization", "Bearer " + memberVO.getAccessToken()).bodyValue(param).retrieve().bodyToMono(String.class);
+		Mono<String> response = webClient.post().uri("https://kapi.kakao.com/v1/user/logout").header("Authorization", "KaKaoAK " + adminKey).bodyValue(param).retrieve().bodyToMono(String.class);
 		log.info("{}", response.block());
 	}
 	
 	// 이거는 테스트용
-	private void useWithKakao(MemberVO memberVO) {
-		
-		WebClient webClient = WebClient.create();
-		Mono<String> response = webClient.get().uri("https://kauth.kakao.com/oauth/logout?client_id={id}&logout_redirect_uri={uri}", myKakaoRestApiKey, "http://localhost/member/logout").retrieve().bodyToMono(String.class);
-		log.info("Logout Test:{}", response.block());
-	}
+//	private void useWithKakao(MemberVO memberVO) {
+//		
+//		WebClient webClient = WebClient.create();
+//		Mono<String> response = webClient.get().uri("https://kauth.kakao.com/oauth/logout?client_id={id}&logout_redirect_uri={uri}", myKakaoRestApiKey, "http://localhost/member/logout").retrieve().bodyToMono(String.class);
+//		log.info("Logout Test:{}", response.block());
+//	}
 
 }

@@ -40,6 +40,7 @@
 	                	<p>${ role.roleName }</p>
 	                </c:forEach>
 	                </sec:authorize>
+	                <a href="./delete">회원 탈퇴</a>
                 </div>
 			</div>
 			<%@ include file="/WEB-INF/views/include/footer.jsp" %>

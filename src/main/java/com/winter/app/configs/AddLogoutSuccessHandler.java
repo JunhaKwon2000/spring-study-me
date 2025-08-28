@@ -27,7 +27,7 @@ public class AddLogoutSuccessHandler implements LogoutSuccessHandler {
 		// 로그아웃을 성공해도 세션만 지워지지 authentication은 살아있음 -> 이걸 활용할 수 있음(로그아웃 시간 기록 등등)
 		// 카카오로 할때만
 		// 다를 때는 그냥
-		response.sendRedirect("https://kauth.kakao.com/oauth/logout?client_id="+myKakaoRestApiKey+"&logout_redirect_uri=http://localhost");
+		// response.sendRedirect("https://kauth.kakao.com/oauth/logout?client_id="+myKakaoRestApiKey+"&logout_redirect_uri=http://localhost");
 	}
 
 	
