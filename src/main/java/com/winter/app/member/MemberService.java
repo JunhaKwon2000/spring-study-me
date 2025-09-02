@@ -177,9 +177,9 @@ public class MemberService extends DefaultOAuth2UserService implements UserDetai
 
 	private OAuth2User useKakao(OAuth2UserRequest userRequest) {
 		OAuth2User user = super.loadUser(userRequest);
-		// log.info("{}", user.getName());
-		// log.info("{}", user.getAttributes());
-		// log.info("{}", user.getAuthorities());
+		 log.info("{}", user.getName());
+		 log.info("{}", user.getAttributes());
+		 log.info("{}", user.getAuthorities());
 
 		MemberVO memberVO = new MemberVO();
 		Map<String, Object> map = user.getAttributes();

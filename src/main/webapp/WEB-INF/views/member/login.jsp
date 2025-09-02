@@ -11,7 +11,7 @@
 	<div class="col-md-8 offset-md-2">
 		<h1 class="h3 mb-4 text-gray-800">Welcome</h1>
 		<h3 class="h3">${ param.failMsg }</h3>
-		<form method="post" action="/member/login">
+		<form method="post" action="/member/loginProcess">
 			<div class="mb-4">
 				<label for="username" class="form-label">Username</label> 
 				<input type="text" class="form-control" id="username" name="username" required="required" value="${ cookie.rememberMe.value }">				
