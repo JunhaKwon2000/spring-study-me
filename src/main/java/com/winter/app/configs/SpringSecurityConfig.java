@@ -108,7 +108,7 @@ public class SpringSecurityConfig {
 //					.addLogoutHandler(addLogoutHandler) // 핸들러에서 해도 댐
 //					.logoutSuccessHandler(addLogoutSuccessHandler) // 핸들러에서 해도 댐
 					.invalidateHttpSession(true) // session 유지 시간을 0로 설정
-					.deleteCookies("accessToken") // 쿠키를 지우기
+					.deleteCookies("accessToken", "refreshToken") // 쿠키를 지우기
 					.logoutSuccessUrl("/"); // 로그아웃 성공 시 이동할 URL
 			})
 			// remember me!

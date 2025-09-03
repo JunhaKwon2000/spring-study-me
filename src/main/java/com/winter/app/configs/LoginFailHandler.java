@@ -33,7 +33,7 @@ public class LoginFailHandler implements AuthenticationFailureHandler {
 		// LockedException - 사용자 계정이 잠겨져 있을 경우(accountNonLocked = false)
 		// CredentialsExpiredException - 사용자의 자격 증명 유효 기간이 만료된 경우(=비밀번호가 만료되었을 경우) (credentialsNonExpired = false)
 		// AuthenticationCredentialsNotFoundException - 그 외 기타 로그인 실패 오류
-		log.info("exception:{}", exception);
+		// log.info("exception:{}", exception);
 		String failMsg = "로그인 실패! 관리자에게 문의하세요";
 		
 		if (exception instanceof BadCredentialsException) {
